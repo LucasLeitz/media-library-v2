@@ -1,4 +1,5 @@
 services:
+
   api:
     build:
       context: ./backend
@@ -19,3 +20,20 @@ services:
     ports:
       - "${WEB_PORT:-8081}:80"
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    container_name: media_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: media_library
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - media_mysql_data:/var/lib/mysql
+
+volumes:
+  media_mysql_data:
