@@ -16,14 +16,13 @@ public class BookDetails {
 
     @Id
     @Column(name = "media_id", columnDefinition = "BINARY(16)", nullable = false)
-    private UUID mediaId; // shared PK = FK to media.id
+    private UUID mediaId;
 
     @OneToOne
     @MapsId
     @JoinColumn(name = "media_id")
     private Media media;
 
-    // cached string like "Stephen King; Peter Straub"
     @Column(name = "author_display", length = 512)
     private String authorDisplay;
 }
