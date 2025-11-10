@@ -5,7 +5,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      SPRING_PROFILES_ACTIVE: prod
+      SPRING_PROFILES_ACTIVE: prod,docker
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - mysql
     expose:
       - "8080"
     restart: unless-stopped
@@ -34,6 +37,11 @@ services:
       - "3306:3306"
     volumes:
       - media_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 volumes:
   media_mysql_data:
