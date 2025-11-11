@@ -22,7 +22,7 @@ public class BookDetailsController {
     @PostMapping("/{mediaId}")
     public ResponseEntity<BookDetailsDto> create(
             @PathVariable UUID mediaId,
-            @RequestParam(required = false) String author // optional on create
+            @RequestParam(required = false) String author
     ) {
         BookDetails bd = bookDetailsService.create(mediaId, author);
         return ResponseEntity.status(HttpStatus.CREATED).body(toDto(bd));
