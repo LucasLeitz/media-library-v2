@@ -4,6 +4,7 @@ import com.lucasleitz.medialibrary.entities.Media;
 import com.lucasleitz.medialibrary.enums.MediaStatus;
 import com.lucasleitz.medialibrary.enums.MediaType;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +12,8 @@ import java.util.UUID;
 
 public interface MediaService {
 
-    Media create(MediaType type, String name, MediaStatus status,
-                 LocalDate startedOn, LocalDate completedOn);
+    Media create(MediaType type, String imageUrl, String name, MediaStatus status,
+                 LocalDate startedAt, LocalDate completedAt);
 
     Optional<Media> findById(UUID id);
 
@@ -24,9 +25,9 @@ public interface MediaService {
 
     Media rename(UUID id, String newName);
 
-    Media setStatus(UUID id, MediaStatus status, LocalDate completedOn);
+    Media setStatus(UUID id, MediaStatus status, LocalDate completedAt);
 
-    Media setDates(UUID id, LocalDate startedOn, LocalDate completedOn);
+    Media setDates(UUID id, LocalDate startedAt, LocalDate completedAt);
 
     void delete(UUID id);
 

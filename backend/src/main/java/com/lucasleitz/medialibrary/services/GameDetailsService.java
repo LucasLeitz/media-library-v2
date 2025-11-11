@@ -12,5 +12,4 @@ public interface GameDetailsService {
     Optional<GameDetails> findByMediaId(UUID mediaId);
     List<GameDetails> listByPlatform(GamePlatform platform);
     GameDetails setPlatform(UUID mediaId, GamePlatform newPlatform);
-    void delete(UUID mediaId);
 }

@@ -7,13 +7,10 @@ import java.util.UUID;
 
 public interface BookDetailsService {
 
-    BookDetails ensureExists(UUID mediaId);
+    BookDetails create(UUID mediaId, String author);
 
     Optional<BookDetails> findByMediaId(UUID mediaId);
 
-    BookDetails setAuthorDisplay(UUID mediaId, String authorDisplay);
+    BookDetails setAuthor(UUID mediaId, String author);
 
-    BookDetails refreshAuthorDisplayFromAuthors(UUID mediaId);
-
-    void delete(UUID mediaId);
 }

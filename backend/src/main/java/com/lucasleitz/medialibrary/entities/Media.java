@@ -55,14 +55,6 @@ public class Media {
         updatedAt = Instant.now();
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "media_id", referencedColumnName = "id", columnDefinition = "BINARY(16)"),
-            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id", columnDefinition = "BINARY(16)")
-    )
-    private Set<Author> authors = new HashSet<>();
-
     @OneToOne(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
     private BookDetails bookDetails;
 
@@ -83,6 +75,9 @@ public class Media {
     public MediaType getType() { return type; }
     public void setType(MediaType type) { this.type = type; }
 
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -100,13 +95,6 @@ public class Media {
 
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
-
-    public java.util.Set<Author> getAuthors() {
-        return authors;
-    }
-    public void setAuthors(java.util.Set<Author> authors) {
-        this.authors = authors;
-    }
 
     @Override
     public boolean equals(Object o) {

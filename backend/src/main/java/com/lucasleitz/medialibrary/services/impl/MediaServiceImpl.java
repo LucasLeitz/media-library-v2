@@ -25,14 +25,32 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public Media create(MediaType type, String name, MediaStatus status,
+    public Media create(MediaType type, String imageUrl, String name, MediaStatus status,
                         LocalDate startedAt, LocalDate completedAt) {
         Media m = new Media();
         m.setType(type);
+        m.setImageUrl(imageUrl);
         m.setName(name);
         m.setStatus(status);
-        m.setStartedAt(startedAt);
-        m.setCompletedAt(completedAt);
+
+        switch (status) {
+            case BACKLOG -> {
+                m.setStartedAt(null);
+                m.setCompletedAt(null);
+            }
+            case IN_PROGRESS -> {
+                m.setStartedAt(startedAt != null ? startedAt : LocalDate.now());
+                m.setCompletedAt(null);
+            }
+            case COMPLETED -> {
+                if (completedAt == null) {
+                    throw new IllegalArgumentException("completedAt must be provided when status=COMPLETED");
+                }
+                m.setCompletedAt(completedAt);
+                m.setStartedAt(startedAt);
+            }
+        }
+
         return mediaRepository.save(m);
     }
 
@@ -72,10 +90,28 @@ public class MediaServiceImpl implements MediaService {
     public Media setStatus(UUID id, MediaStatus status, LocalDate completedAt) {
         Media m = mediaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Media not found: " + id));
+
         m.setStatus(status);
-        if (completedAt != null) {
-            m.setCompletedAt(completedAt);
+
+        switch (status) {
+            case BACKLOG -> {
+                m.setStartedAt(null);
+                m.setCompletedAt(null);
+            }
+            case IN_PROGRESS -> {
+                if (m.getStartedAt() == null) {
+                    m.setStartedAt(LocalDate.now());
+                }
+                m.setCompletedAt(null);
+            }
+            case COMPLETED -> {
+                if (completedAt == null) {
+                    throw new IllegalArgumentException("completedAt must be provided when status=COMPLETED");
+                }
+                m.setCompletedAt(completedAt);
+            }
         }
+
         return mediaRepository.save(m);
     }
 
@@ -83,8 +119,25 @@ public class MediaServiceImpl implements MediaService {
     public Media setDates(UUID id, LocalDate startedAt, LocalDate completedAt) {
         Media m = mediaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Media not found: " + id));
-        m.setStartedAt(startedAt);
-        m.setCompletedAt(completedAt);
+
+        switch (m.getStatus()) {
+            case BACKLOG -> {
+                m.setStartedAt(null);
+                m.setCompletedAt(null);
+            }
+            case IN_PROGRESS -> {
+                m.setStartedAt(startedAt != null ? startedAt : (m.getStartedAt() != null ? m.getStartedAt() : LocalDate.now()));
+                m.setCompletedAt(null);
+            }
+            case COMPLETED -> {
+                if (completedAt == null && m.getCompletedAt() == null) {
+                    throw new IllegalArgumentException("completedAt is required when status=COMPLETED");
+                }
+                if (completedAt != null) m.setCompletedAt(completedAt);
+                if (startedAt != null) m.setStartedAt(startedAt);
+            }
+        }
+
         return mediaRepository.save(m);
     }
 

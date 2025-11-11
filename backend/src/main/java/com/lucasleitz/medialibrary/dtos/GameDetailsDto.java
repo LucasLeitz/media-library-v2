@@ -8,4 +8,20 @@ import java.util.UUID;
 public class GameDetailsDto {
     private UUID mediaId;
     private GamePlatform platform;
+
+    public UUID getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(UUID mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public GamePlatform getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(GamePlatform platform) {
+        this.platform = platform;
+    }
 }

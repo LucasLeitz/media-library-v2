@@ -1,10 +1,25 @@
 package com.lucasleitz.medialibrary.dtos;
 
-import lombok.Data;
 import java.util.UUID;
 
-@Data
 public class BookDetailsDto {
     private UUID mediaId;
-    private String authorDisplay;
+    private String author;
+
+    public UUID getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(UUID mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public String getAuthor(){
+        return author;
+    }
+
+    public void setAuthor(String author){
+        this.author = author;
+    }
+
 }

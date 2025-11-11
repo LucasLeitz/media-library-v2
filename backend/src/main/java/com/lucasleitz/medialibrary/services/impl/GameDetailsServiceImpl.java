@@ -67,8 +67,4 @@ public class GameDetailsServiceImpl implements GameDetailsService {
         return gameDetailsRepository.save(gd);
     }
 
-    @Override
-    public void delete(UUID mediaId) {
-        gameDetailsRepository.deleteById(mediaId);
-    }
 }

@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface BookDetailsRepository extends JpaRepository<BookDetails, UUID> { }
+public interface BookDetailsRepository extends JpaRepository<BookDetails, UUID> {
+
+}

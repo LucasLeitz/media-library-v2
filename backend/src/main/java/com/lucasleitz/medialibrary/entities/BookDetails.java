@@ -16,8 +16,8 @@ public class BookDetails {
     @JoinColumn(name = "media_id")
     private Media media;
 
-    @Column(name = "author_display", length = 512)
-    private String authorDisplay;
+    @Column(name = "author")
+    private String author;
 
     public BookDetails() {}
 
@@ -27,7 +27,7 @@ public class BookDetails {
     public Media getMedia() { return media; }
     public void setMedia(Media media) { this.media = media; }
 
-    public String getAuthorDisplay() { return authorDisplay; }
-    public void setAuthorDisplay(String authorDisplay) { this.authorDisplay = authorDisplay; }
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
 
 }

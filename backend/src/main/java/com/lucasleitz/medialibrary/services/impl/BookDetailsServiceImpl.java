@@ -2,7 +2,7 @@ package com.lucasleitz.medialibrary.services.impl;
 
 import com.lucasleitz.medialibrary.entities.BookDetails;
 import com.lucasleitz.medialibrary.entities.Media;
-import com.lucasleitz.medialibrary.entities.Author;
+import com.lucasleitz.medialibrary.enums.MediaType;
 import com.lucasleitz.medialibrary.repositories.BookDetailsRepository;
 import com.lucasleitz.medialibrary.repositories.MediaRepository;
 import com.lucasleitz.medialibrary.services.BookDetailsService;
@@ -30,15 +30,20 @@ public class BookDetailsServiceImpl implements BookDetailsService {
     }
 
     @Override
-    public BookDetails ensureExists(UUID mediaId) {
-        return bookDetailsRepository.findById(mediaId)
-                .orElseGet(() -> {
-                    Media media = mediaRepository.findById(mediaId)
-                            .orElseThrow(() -> new EntityNotFoundException("Media not found: " + mediaId));
-                    BookDetails bd = new BookDetails();
-                    bd.setMedia(media);
-                    return bookDetailsRepository.save(bd);
-                });
+    public BookDetails create(UUID mediaId, String author) {
+        Media media = mediaRepository.findById(mediaId)
+                .orElseThrow(() -> new EntityNotFoundException("Media not found: " + mediaId));
+        if (media.getType() != MediaType.BOOK) {
+            throw new IllegalStateException("Media " + mediaId + " is not of type BOOK");
+        }
+        if (bookDetailsRepository.existsById(mediaId)) {
+            throw new IllegalStateException("BookDetails already exists for media " + mediaId);
+        }
+
+        BookDetails bd = new BookDetails();
+        bd.setMedia(media);         // @OneToOne @MapsId – mediaId is PK
+        bd.setAuthor(author);       // may be null; you can set later
+        return bookDetailsRepository.save(bd);
     }
 
     @Override
@@ -48,35 +53,10 @@ public class BookDetailsServiceImpl implements BookDetailsService {
     }
 
     @Override
-    public BookDetails setAuthorDisplay(UUID mediaId, String authorDisplay) {
-        BookDetails bd = ensureExists(mediaId);
-        bd.setAuthorDisplay(authorDisplay);
+    public BookDetails setAuthor(UUID mediaId, String author) {
+        BookDetails bd = bookDetailsRepository.findById(mediaId)
+                .orElseThrow(() -> new EntityNotFoundException("BookDetails not found: " + mediaId));
+        bd.setAuthor(author);
         return bookDetailsRepository.save(bd);
-    }
-
-    @Override
-    public BookDetails refreshAuthorDisplayFromAuthors(UUID mediaId) {
-        Media media = mediaRepository.findById(mediaId)
-                .orElseThrow(() -> new EntityNotFoundException("Media not found: " + mediaId));
-
-        var authors = media.getAuthors() != null ? media.getAuthors() : Collections.<Author>emptySet();
-
-        String display = authors.stream()
-                .map(Author::getName)
-                .filter(n -> n != null && !n.isBlank())
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .collect(Collectors.joining("; "));
-
-        BookDetails bd = ensureExists(mediaId);
-        bd.setAuthorDisplay(display.isBlank() ? null : display);
-        return bookDetailsRepository.save(bd);
-    }
-
-    @Override
-    public void delete(UUID mediaId) {
-        if (!bookDetailsRepository.existsById(mediaId)) {
-            throw new EntityNotFoundException("BookDetails not found for media: " + mediaId);
-        }
-        bookDetailsRepository.deleteById(mediaId);
     }
 }
