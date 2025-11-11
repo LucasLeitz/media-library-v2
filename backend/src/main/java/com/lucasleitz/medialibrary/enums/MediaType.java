@@ -1,4 +1,4 @@
-package com.lucasleitz.medialibrary.entities;
+package com.lucasleitz.medialibrary.enums;
 
 public enum MediaType {
     BOOK, MOVIE, TV, GAME

@@ -1,7 +1,7 @@
 package com.lucasleitz.medialibrary.services;
 
 import com.lucasleitz.medialibrary.entities.GameDetails;
-import com.lucasleitz.medialibrary.entities.GamePlatform;
+import com.lucasleitz.medialibrary.enums.GamePlatform;
 
 import java.util.List;
 import java.util.Optional;

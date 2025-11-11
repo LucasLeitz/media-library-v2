@@ -1,4 +1,4 @@
-package com.lucasleitz.medialibrary.entities;
+package com.lucasleitz.medialibrary.enums;
 
 public enum MediaStatus {
     BACKLOG, COMPLETED, IN_PROGRESS

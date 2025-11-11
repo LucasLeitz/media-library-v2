@@ -1,9 +1,9 @@
 package com.lucasleitz.medialibrary.services.impl;
 
 import com.lucasleitz.medialibrary.entities.GameDetails;
-import com.lucasleitz.medialibrary.entities.GamePlatform;
+import com.lucasleitz.medialibrary.enums.GamePlatform;
 import com.lucasleitz.medialibrary.entities.Media;
-import com.lucasleitz.medialibrary.entities.MediaType;
+import com.lucasleitz.medialibrary.enums.MediaType;
 import com.lucasleitz.medialibrary.repositories.GameDetailsRepository;
 import com.lucasleitz.medialibrary.repositories.MediaRepository;
 import com.lucasleitz.medialibrary.services.GameDetailsService;

@@ -1,7 +1,7 @@
 package com.lucasleitz.medialibrary.repositories;
 
 import com.lucasleitz.medialibrary.entities.GameDetails;
-import com.lucasleitz.medialibrary.entities.GamePlatform;
+import com.lucasleitz.medialibrary.enums.GamePlatform;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

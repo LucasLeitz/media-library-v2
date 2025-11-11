@@ -1,12 +1,13 @@
 package com.lucasleitz.medialibrary.entities;
 
+import com.lucasleitz.medialibrary.enums.MediaStatus;
+import com.lucasleitz.medialibrary.enums.MediaType;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import com.lucasleitz.medialibrary.entities.Author;
 
 @Entity
 @Table(name = "media")

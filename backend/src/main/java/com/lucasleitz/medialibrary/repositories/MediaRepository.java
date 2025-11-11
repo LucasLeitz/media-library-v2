@@ -1,8 +1,8 @@
 package com.lucasleitz.medialibrary.repositories;
 
 import com.lucasleitz.medialibrary.entities.Media;
-import com.lucasleitz.medialibrary.entities.MediaStatus;
-import com.lucasleitz.medialibrary.entities.MediaType;
+import com.lucasleitz.medialibrary.enums.MediaStatus;
+import com.lucasleitz.medialibrary.enums.MediaType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

@@ -1,8 +1,8 @@
 package com.lucasleitz.medialibrary.services.impl;
 
 import com.lucasleitz.medialibrary.entities.Media;
-import com.lucasleitz.medialibrary.entities.MediaStatus;
-import com.lucasleitz.medialibrary.entities.MediaType;
+import com.lucasleitz.medialibrary.enums.MediaStatus;
+import com.lucasleitz.medialibrary.enums.MediaType;
 import com.lucasleitz.medialibrary.repositories.MediaRepository;
 import com.lucasleitz.medialibrary.services.MediaService;
 import jakarta.persistence.EntityNotFoundException;

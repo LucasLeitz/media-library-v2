@@ -1,8 +1,8 @@
 package com.lucasleitz.medialibrary.services;
 
 import com.lucasleitz.medialibrary.entities.Media;
-import com.lucasleitz.medialibrary.entities.MediaStatus;
-import com.lucasleitz.medialibrary.entities.MediaType;
+import com.lucasleitz.medialibrary.enums.MediaStatus;
+import com.lucasleitz.medialibrary.enums.MediaType;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.lucasleitz.medialibrary.entities;
 
+import com.lucasleitz.medialibrary.enums.GamePlatform;
 import jakarta.persistence.*;
 import java.util.UUID;
 

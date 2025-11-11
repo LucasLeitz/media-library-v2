@@ -4,3 +4,5 @@
 - Implement a "suggestion" page where people viewing the site can suggest a media item
 
 - Password protect it so only I can add, edit, remove items
+
+- Use lombok with the entities
