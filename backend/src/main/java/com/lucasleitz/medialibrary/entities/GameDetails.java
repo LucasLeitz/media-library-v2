@@ -1,15 +1,8 @@
 package com.lucasleitz.medialibrary.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "game_details")
 public class GameDetails {
@@ -26,4 +19,15 @@ public class GameDetails {
     @MapsId
     @JoinColumn(name = "media_id")
     private Media media;
+
+    public GameDetails() {}
+
+    public UUID getMediaId() { return mediaId; }
+    public void setMediaId(UUID mediaId) { this.mediaId = mediaId; }
+
+    public GamePlatform getPlatform() { return platform; }
+    public void setPlatform(GamePlatform platform) { this.platform = platform; }
+
+    public Media getMedia() { return media; }
+    public void setMedia(Media media) { this.media = media; }
 }

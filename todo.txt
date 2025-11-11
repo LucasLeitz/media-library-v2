@@ -1,0 +1,6 @@
+- Make database persistent, have it back up each night
+    so if the docker container resets we can easily restore it
+
+- Implement a "suggestion" page where people viewing the site can suggest a media item
+
+- Password protect it so only I can add, edit, remove items

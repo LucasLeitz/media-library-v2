@@ -6,14 +6,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import com.lucasleitz.medialibrary.entities.Author;
 
-@Getter @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "media")
 public class Media {
@@ -50,7 +44,7 @@ public class Media {
     @PrePersist
     void onCreate() {
         if (id == null) id = UUID.randomUUID();
-        var now = Instant.now();
+        Instant now = Instant.now();
         createdAt = now;
         updatedAt = now;
     }
@@ -74,4 +68,59 @@ public class Media {
     @OneToOne(mappedBy = "media", cascade = CascadeType.ALL, orphanRemoval = true)
     private GameDetails gameDetails;
 
+    public Media() {}
+
+    public Media(MediaType type, String name, MediaStatus status) {
+        this.type = type;
+        this.name = name;
+        this.status = status;
+    }
+
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public MediaType getType() { return type; }
+    public void setType(MediaType type) { this.type = type; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public MediaStatus getStatus() { return status; }
+    public void setStatus(MediaStatus status) { this.status = status; }
+
+    public LocalDate getStartedAt() { return startedAt; }
+    public void setStartedAt(LocalDate startedAt) { this.startedAt = startedAt; }
+
+    public LocalDate getCompletedAt() { return completedAt; }
+    public void setCompletedAt(LocalDate completedAt) { this.completedAt = completedAt; }
+
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+    public java.util.Set<Author> getAuthors() {
+        return authors;
+    }
+    public void setAuthors(java.util.Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Media other)) return false;
+        return id != null && id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Media{id=" + id + ", type=" + type + ", name='" + name + "'}";
+    }
 }

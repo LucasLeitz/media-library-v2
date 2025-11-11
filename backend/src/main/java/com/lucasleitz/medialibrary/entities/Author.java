@@ -2,12 +2,7 @@ package com.lucasleitz.medialibrary.entities;
 
 import jakarta.persistence.*;
 import java.util.UUID;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "author",
         uniqueConstraints = @UniqueConstraint(name="uq_author_name", columnNames = "name"))
@@ -20,4 +15,13 @@ public class Author {
     private String name;
 
     @PrePersist void pre() { if (id == null) id = UUID.randomUUID(); }
+
+    public Author() {}
+
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
 }

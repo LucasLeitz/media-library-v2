@@ -1,15 +1,8 @@
 package com.lucasleitz.medialibrary.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "book_details")
 public class BookDetails {
@@ -25,4 +18,16 @@ public class BookDetails {
 
     @Column(name = "author_display", length = 512)
     private String authorDisplay;
+
+    public BookDetails() {}
+
+    public UUID getMediaId() { return mediaId; }
+    public void setMediaId(UUID mediaId) { this.mediaId = mediaId; }
+
+    public Media getMedia() { return media; }
+    public void setMedia(Media media) { this.media = media; }
+
+    public String getAuthorDisplay() { return authorDisplay; }
+    public void setAuthorDisplay(String authorDisplay) { this.authorDisplay = authorDisplay; }
+
 }
