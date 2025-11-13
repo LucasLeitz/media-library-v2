@@ -303,9 +303,8 @@ class MediaServiceTest extends IntegrationTestBase {
 
     @Test
     void renameThrowsWhenIdNotFound() {
-        UUID missing = UUID.randomUUID();
         assertThrows(EntityNotFoundException.class,
-                () -> mediaService.rename(missing, "Doesn't Matter"));
+                () -> mediaService.rename(UUID.randomUUID(), "Doesn't Matter"));
     }
 
     @Test
@@ -318,6 +317,26 @@ class MediaServiceTest extends IntegrationTestBase {
 
         var reloaded = mediaRepository.findById(savedId).orElseThrow();
         assertEquals("New Name", reloaded.getName());
+    }
+
+    @Test
+    void setImageUrlThrowsWhenIdNotFound() {
+        assertThrows(EntityNotFoundException.class,
+                () -> mediaService.setImageUrl(UUID.randomUUID(), "Doesn't matter"));
+    }
+
+    @Test
+    void setImageUrlUpdatesImageUrlPersists() {
+        String imageUrl = "testImageUrl.com";
+        var updated = mediaService.setImageUrl(savedId, imageUrl);
+        assertEquals(imageUrl, updated.getImageUrl());
+
+        em.flush();
+        em.clear();
+
+        var reloaded = mediaRepository.findById(savedId).orElseThrow();
+        assertEquals(imageUrl, reloaded.getImageUrl());
+
     }
 
     @Test

@@ -29,6 +29,8 @@ public interface MediaService {
 
     Media setDates(UUID id, LocalDate startedAt, LocalDate completedAt);
 
+    Media setImageUrl(UUID id, String imageUrl);
+
     void delete(UUID id);
 
 }

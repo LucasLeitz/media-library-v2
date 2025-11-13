@@ -113,6 +113,15 @@ public class MediaServiceImpl implements MediaService {
         mediaRepository.deleteById(id);
     }
 
+    @Override
+    public Media setImageUrl(UUID id, String imageUrl) {
+        Media m = mediaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Media not found: " + id));
+
+        m.setImageUrl(imageUrl);
+        return mediaRepository.save(m);
+    }
+
     private static void validateOrder(LocalDate startedAt, LocalDate completedAt) {
         if (startedAt != null && completedAt != null && completedAt.isBefore(startedAt)) {
             throw new IllegalArgumentException("completedAt must be on or after startedAt");
@@ -150,7 +159,6 @@ public class MediaServiceImpl implements MediaService {
                 }
             }
         }
-
         validateOrder(m.getStartedAt(), m.getCompletedAt());
     }
 
