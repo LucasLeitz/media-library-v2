@@ -1,25 +1,28 @@
 package com.lucasleitz.medialibrary.support;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 
-@Testcontainers
-@SpringBootTest
-@ActiveProfiles("test")
 public abstract class IntegrationTestBase {
 
-    @Container
-    @ServiceConnection
-    static MySQLContainer<?> mysql = new MySQLContainer<>(
-            DockerImageName.parse("mysql:8.4.3"))
-            .withUsername("test")
-            .withPassword("test")
-            .withDatabaseName("medialib");
+    private static final MySQLContainer<?> MYSQL;
 
+    static {
+        MYSQL = new MySQLContainer<>("mysql:8.4.3")
+                .withDatabaseName("medialib")
+                .withUsername("test")
+                .withPassword("test")
+                .withReuse(true);  // Enable container reuse
+        MYSQL.start();
+    }
+
+    @DynamicPropertySource
+    static void registerMySqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", MYSQL::getJdbcUrl);
+        registry.add("spring.datasource.username", MYSQL::getUsername);
+        registry.add("spring.datasource.password", MYSQL::getPassword);
+        registry.add("spring.datasource.driver-class-name", MYSQL::getDriverClassName);
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "none");
+    }
 }
