@@ -6,9 +6,11 @@ import com.lucasleitz.medialibrary.services.BookDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/bookdetails")
 public class BookDetailsController {

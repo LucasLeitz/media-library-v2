@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<h1>Media Library v2</h1>
 
-</body>
-</html>
+<button (click)="onButtonClick()">
+  Click me (local counter)
+</button>
+
+<p>You have clicked the button {{ clicks }} time(s).</p>
+
+<hr />
+
+<button (click)="generateMedia()">
+  Generate Media via Backend
+</button>
+
+<div *ngIf="loading" class="status">
+  Creating media…
+</div>
+
+<div *ngIf="error" class="status error">
+  {{ error }}
+</div>
+
+<div *ngIf="media as m" class="result">
+  <h2>Created Media</h2>
+  <p><strong>ID:</strong> {{ m.id }}</p>
+  <p><strong>Name:</strong> {{ m.name }}</p>
+  <p><strong>Type:</strong> {{ m.type }}</p>
+  <p><strong>Status:</strong> {{ m.status }}</p>
+  <p><strong>Created:</strong> {{ m.createdAt }}</p>
+  <p><strong>Updated:</strong> {{ m.updatedAt }}</p>
+
+  <div *ngIf="m.bookDetails">
+    <h3>Book Details</h3>
+    <p><strong>Author:</strong> {{ m.bookDetails?.author }}</p>
+  </div>
+
+  <div *ngIf="m.gameDetails">
+    <h3>Game Details</h3>
+    <p><strong>Platform:</strong> {{ m.gameDetails?.platform }}</p>
+  </div>
+
+  <h3>Raw JSON</h3>
+  <pre>{{ m | json }}</pre>
+</div>
