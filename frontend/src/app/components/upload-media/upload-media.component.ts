@@ -11,7 +11,6 @@ import { MediaService } from '../../services/media.service';
 })
 export class UploadMediaComponent implements OnInit {
 
-  // Used for redirect after submit/cancel
   private readonly mediaRouteMap: Record<MediaType, string> = {
     [MediaType.BOOK]: 'books',
     [MediaType.MOVIE]: 'movies',

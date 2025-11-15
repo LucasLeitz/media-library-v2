@@ -2,29 +2,29 @@
   display: flex;
   gap: 20px;
   padding: 10px 0;
-  justify-content: center; /* Center the tabs */
-  background: none; /* No background color */
+  justify-content: center;
+  background: none;
 }
 
 .navbar a {
-  color: #00ffcc; /* Neon green text */
+  color: #00ffcc;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
   padding: 10px 20px;
   border-radius: 8px;
   transition: color 0.3s, box-shadow 0.3s, transform 0.2s;
-  box-shadow: 0 0 8px rgba(0, 255, 204, 0.5); /* Neon shadow */
+  box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
 }
 
 .navbar a:hover {
-  color: #ffffff; /* White on hover */
+  color: #ffffff;
   transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(0, 255, 204, 0.8); /* Brighter glow on hover */
+  box-shadow: 0 0 12px rgba(0, 255, 204, 0.8);
 }
 
 .active-tab {
-  color: #00ffcc; /* Neon green for active tab */
-  border-bottom: 2px solid #00ffcc; /* Bottom border for active tab */
-  box-shadow: 0 0 15px rgba(0, 255, 204, 0.7); /* Stronger shadow for active tab */
+  color: #00ffcc;
+  border-bottom: 2px solid #00ffcc;
+  box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
 }

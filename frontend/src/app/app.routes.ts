@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { MediaComponent } from './components/media/media.component';
 import { UploadMediaComponent } from './components/upload-media/upload-media.component';
-import { MediaType, MediaStatus } from './models/media';
+import { MediaType } from './models/media';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

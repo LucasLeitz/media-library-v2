@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
     this.loadCompletedCounts();
   }
 
-
   loadTotalCounts(): void {
     this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
       next: (books: Media[]) =>

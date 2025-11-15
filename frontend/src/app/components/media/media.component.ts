@@ -52,7 +52,6 @@ export class MediaComponent implements OnInit {
     this.editRoutePrefix = `/edit-${routeSegment}`;
     this.backlogRoute = `/${routeSegment}s/backlog`;
 
-    // Get all media of this type, then filter to COMPLETED
     this.mediaService.getMediaByType(this.mediaType).subscribe({
       next: (data: Media[]) => {
         this.mediaList = data.filter(m => m.status === MediaStatus.COMPLETED);

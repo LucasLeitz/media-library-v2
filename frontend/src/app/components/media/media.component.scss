@@ -6,16 +6,16 @@
 
 .item-image {
   width: 100%;
-  flex-grow: 1; /* Allow the image to take up remaining space */
+  flex-grow: 1;
   object-fit: cover;
-  border-radius: 8px 8px 0 0; /* Rounded corners for the top only */
+  border-radius: 8px 8px 0 0;
 }
 
 .item-info {
   padding: 8px;
   text-align: center;
-  background-color: #000; /* Ensure fully black background */
-  height: 50px; /* Fixed height for the text section */
+  background-color: #000;
+  height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,7 @@
   font-size: 1rem;
   font-weight: bold;
   margin: 0;
-  color: #fff; /* Ensure text stands out against black */
+  color: #fff;
 }
 
 .item-platform {
@@ -45,7 +45,7 @@
   font-size: 1.2rem;
   cursor: pointer;
   font-weight: bold;
-  z-index: 3; /* Ensures button is above both card sides */
+  z-index: 3;
 }
 
 .remove-btn:hover {
@@ -53,13 +53,13 @@
 }
 
 .content-container {
-  margin-left: 20px; /* Adjust this value to control how much space you want on the left */
+  margin-left: 20px;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Adjust the spacing as needed */
+  gap: 10px;
 }
 
 h2 {
@@ -88,31 +88,31 @@ h2 {
 .cool-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #00ffcc; /* Same neon color as the button */
+  color: #00ffcc;
   text-shadow: 0 0 6px rgba(0, 255, 204, 0.6), 0 0 12px rgba(0, 255, 204, 0.4);
   text-align: center;
   margin-top: 0;
-  margin-bottom: 20px; /* Space below title if needed */
+  margin-bottom: 20px;
 }
 
 /* Item Cards */
 .item-card {
   position: relative;
   width: 200px;
-  height: 300px; /* Fixed overall height for the card */
+  height: 300px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-  background: #000; /* Ensure fully black background */
+  background: #000;
   display: flex;
   flex-direction: column;
 }
 
 .item-image {
   width: 100%;
-  height: 70%; /* Adjust height for the image section */
+  height: 70%;
   object-fit: cover;
-  border-radius: 8px 8px 0 0; /* Apply rounded corners only to the top */
+  border-radius: 8px 8px 0 0;
 }
 
 .card-inner {
@@ -138,8 +138,8 @@ h2 {
 }
 
 .card-front {
-  background: #000; /* Fully black background */
-  color: #fff; /* White text for contrast */
+  background: #000;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,18 +148,18 @@ h2 {
 }
 
 .card-back {
-  background: #000; /* Ensure fully black background */
+  background: #000;
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px; /* Adjust padding if it causes overflow */
+  padding: 16px;
   text-align: center;
   transform: rotateY(180deg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  box-sizing: border-box; /* Ensures padding doesn’t affect width */
+  box-sizing: border-box;
 }
 
 .completed-date {
@@ -176,8 +176,8 @@ h2 {
 }
 
 .search-input {
-  width: 300px; /* Set a fixed width */
-  max-width: 80%; /* Make it responsive by limiting the width to 80% of its container */
+  width: 300px;
+  max-width: 80%;
   padding: 10px;
   border: 1px solid #333;
   border-radius: 8px;
@@ -197,7 +197,7 @@ h2 {
 .sort-label {
   font-size: 1rem;
   font-weight: bold;
-  color: #00ffcc; /* Neon color to match other elements */
+  color: #00ffcc;
   text-shadow: 0 0 6px rgba(0, 255, 204, 0.6), 0 0 12px rgba(0, 255, 204, 0.4);
 }
 
@@ -206,7 +206,7 @@ h2 {
   border: 1px solid #333;
   border-radius: 8px;
   background-color: #111;
-  color: #00ffcc; /* Match the neon theme */
+  color: #00ffcc;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -220,26 +220,26 @@ h2 {
 
 .button-group {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  gap: 10px; /* Spacing between buttons */
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
-  align-items: center; /* Center buttons horizontally */
+  align-items: center;
 }
 
 .info-btn, .edit-btn, .delete-btn {
-  background: #111; /* Same as Sort button background */
-  border: 1px solid #00ffcc; /* Neon border */
-  color: #00ffcc; /* Neon text */
-  padding: 10px 20px; /* Same padding as Sort button */
-  font-size: 1rem; /* Consistent font size */
+  background: #111;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 10px 20px;
+  font-size: 1rem;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); /* Same shadow effect */
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
   transition: box-shadow 0.3s, transform 0.2s;
 }
 
 .info-btn:hover, .edit-btn:hover, .delete-btn:hover {
   box-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
-  transform: scale(1.05); /* Slightly enlarge on hover */
+  transform: scale(1.05);
 }
