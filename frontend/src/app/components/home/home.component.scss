@@ -1,0 +1,86 @@
+.content-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.cool-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #00ffcc;
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.7), 0 0 20px rgba(0, 255, 204, 0.5);
+  margin-bottom: 30px;
+}
+
+.item-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.item-card {
+  position: relative;
+  width: 200px;
+  height: 100px; /* Smaller card height for counts */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  background: #000; /* Pure black background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-front {
+  background: #000; /* Fully black front side */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.item-info {
+  text-align: center;
+  background-color: transparent; /* Remove any gray background */
+}
+
+.item-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #00ffcc; /* Neon color */
+}
+
+.item-platform {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff; /* White text */
+}
+
+/* New stats-section styles */
+.stats-section {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #000; /* Pure black to match cards */
+  color: #00ffcc; /* Neon text to match the title */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for elevation */
+}
+
+.stats-section h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.7), 0 0 20px rgba(0, 255, 204, 0.5); /* Neon glow */
+}
+
+.stats-section p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 5px 0;
+  color: #fff; /* White text for better contrast */
+}

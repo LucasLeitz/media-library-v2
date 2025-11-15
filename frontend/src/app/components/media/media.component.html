@@ -1,0 +1,72 @@
+<div class="content-container">
+  <h2 class="cool-title" *ngIf="mediaType">
+    Completed {{ mediaLabel }} List
+  </h2>
+
+  <div class="button-container">
+    <button class="add-item-btn" (click)="addItem()">Add {{ mediaLabel }}s</button>
+    <button class="search-item-btn" (click)="toggleSearch()">Search for {{ mediaLabel }}s</button>
+    <button class="sort-items-btn" (click)="toggleSortOptions()">Sort {{ mediaLabel }}s</button>
+    <button class="filter-items-btn">Filter {{ mediaLabel }}s</button>
+    <button class="backlog-btn" (click)="goToBacklog()">View Backlog</button>
+  </div>
+
+  <!-- Sort Options Dropdown -->
+  <div *ngIf="showSortOptions" class="sort-container">
+    <label for="sortCriteria" class="sort-label">Sort by:</label>
+    <select
+      id="sortCriteria"
+      [(ngModel)]="sortCriteria"
+      (change)="sortItems()"
+      class="sort-select"
+    >
+      <option value="name">Title</option>
+      <option value="completedAt">Completed Date</option>
+    </select>
+  </div>
+
+  <!-- Search Input -->
+  <div *ngIf="showSearch" class="search-container">
+    <input
+      type="text"
+      placeholder="Search..."
+      [(ngModel)]="searchTerm"
+      (input)="filterItems()"
+      class="search-input"
+    />
+  </div>
+
+  <!-- Media List -->
+  <div class="item-grid">
+    <div
+      class="item-card"
+      *ngFor="let item of filteredList; let i = index"
+      (click)="flipCard(i)"
+      [class.flipped]="flippedCards[i]"
+    >
+      <div class="card-inner">
+        <!-- Front of the card -->
+        <div class="card-front">
+          <img
+            *ngIf="item.imageUrl"
+            [src]="item.imageUrl"
+            alt="{{ item.name }} image"
+            class="item-image"
+          />
+          <div class="item-info">
+            <p class="item-title">{{ item.name }}</p>
+          </div>
+        </div>
+
+        <!-- Back of the card -->
+        <div class="card-back">
+          <div class="button-group">
+            <button class="info-btn" (click)="$event.stopPropagation()">More Info</button>
+            <button class="edit-btn" (click)="editItem(i); $event.stopPropagation()">Edit</button>
+            <button class="delete-btn" (click)="removeItem(i); $event.stopPropagation()">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

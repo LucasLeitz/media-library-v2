@@ -1,0 +1,105 @@
+.content-container {
+  width: 80%;
+  margin: auto;
+}
+
+.cool-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00ffcc;
+  text-shadow: 0 0 6px rgba(0, 255, 204, 0.6), 0 0 12px rgba(0, 255, 204, 0.4);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.add-game-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #000;
+  color: #fff;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image-section {
+  margin-top: 10px;
+}
+
+.search-image-btn {
+  background: #111;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.search-image-btn:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+  transform: scale(1.05);
+}
+
+.image-preview {
+  text-align: center;
+}
+
+.preview-img {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.submit-btn,
+.cancel-btn {
+  background: #00ffcc;
+  border: none;
+  color: #111;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+  background: #00e6b8;
+  transform: scale(1.05);
+}
+
+.cancel-btn {
+  background: #555;
+}
+
+.cancel-btn:hover {
+  background: #777;
+}

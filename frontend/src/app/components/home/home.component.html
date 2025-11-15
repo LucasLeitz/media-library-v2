@@ -1,44 +1,72 @@
-<h1>Media Library v2</h1>
+<div class="content-container">
+  <h1 class="cool-title">Welcome to Your Media Library</h1>
 
-<button (click)="onButtonClick()">
-  Click me (local counter)
-</button>
+  <!-- Total Counts Section -->
+  <div class="item-grid">
 
-<p>You have clicked the button {{ clicks }} time(s).</p>
+    <div class="item-card">
+      <div class="card-front">
+        <div class="item-info">
+          <p class="item-title">Total Video Games</p>
+          <p class="item-platform">{{ totalVideoGames }}</p>
+        </div>
+      </div>
+    </div>
 
-<hr />
+    <div class="item-card">
+      <div class="card-front">
+        <div class="item-info">
+          <p class="item-title">Total Books</p>
+          <p class="item-platform">{{ totalBooks }}</p>
+        </div>
+      </div>
+    </div>
 
-<button (click)="generateMedia()">
-  Generate Media via Backend
-</button>
+    <div class="item-card">
+      <div class="card-front">
+        <div class="item-info">
+          <p class="item-title">Total Movies</p>
+          <p class="item-platform">{{ totalMovies }}</p>
+        </div>
+      </div>
+    </div>
 
-<div *ngIf="loading" class="status">
-  Creating media…
-</div>
+    <div class="item-card">
+      <div class="card-front">
+        <div class="item-info">
+          <p class="item-title">Total TV Shows</p>
+          <p class="item-platform">{{ totalTvShows }}</p>
+        </div>
+      </div>
+    </div>
 
-<div *ngIf="error" class="status error">
-  {{ error }}
-</div>
-
-<div *ngIf="media as m" class="result">
-  <h2>Created Media</h2>
-  <p><strong>ID:</strong> {{ m.id }}</p>
-  <p><strong>Name:</strong> {{ m.name }}</p>
-  <p><strong>Type:</strong> {{ m.type }}</p>
-  <p><strong>Status:</strong> {{ m.status }}</p>
-  <p><strong>Created:</strong> {{ m.createdAt }}</p>
-  <p><strong>Updated:</strong> {{ m.updatedAt }}</p>
-
-  <div *ngIf="m.bookDetails">
-    <h3>Book Details</h3>
-    <p><strong>Author:</strong> {{ m.bookDetails?.author }}</p>
   </div>
 
-  <div *ngIf="m.gameDetails">
-    <h3>Game Details</h3>
-    <p><strong>Platform:</strong> {{ m.gameDetails?.platform }}</p>
-  </div>
 
-  <h3>Raw JSON</h3>
-  <pre>{{ m | json }}</pre>
+  <!-- Completed Counts -->
+  <div class="stats-section">
+
+    <h2>Statistics for {{ currentYear }}</h2>
+
+    <p *ngIf="completedVideoGamesCount !== null">
+      Completed Video Games: {{ completedVideoGamesCount }}
+    </p>
+    <p *ngIf="completedVideoGamesCount === null">Loading Video Games...</p>
+
+    <p *ngIf="completedBooksCount !== null">
+      Completed Books: {{ completedBooksCount }}
+    </p>
+    <p *ngIf="completedBooksCount === null">Loading Books...</p>
+
+    <p *ngIf="completedMoviesCount !== null">
+      Completed Movies: {{ completedMoviesCount }}
+    </p>
+    <p *ngIf="completedMoviesCount === null">Loading Movies...</p>
+
+    <p *ngIf="completedTvShowsCount !== null">
+      Completed TV Shows: {{ completedTvShowsCount }}
+    </p>
+    <p *ngIf="completedTvShowsCount === null">Loading TV Shows...</p>
+
+  </div>
 </div>

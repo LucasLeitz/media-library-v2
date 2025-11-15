@@ -1,48 +1,96 @@
-import { Component } from '@angular/core';
-import { Media, MediaStatus, MediaType } from '../../models/media';
+import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../../services/media.service';
+import { Media, MediaStatus, MediaType } from '../../models/media';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  clicks = 0;
-  media?: Media;
-  loading = false;
-  error?: string;
+export class HomeComponent implements OnInit {
+  totalBooks = 0;
+  totalMovies = 0;
+  totalTvShows = 0;
+  totalVideoGames = 0;
+
+  completedBooksCount: number | null = null;
+  completedMoviesCount: number | null = null;
+  completedTvShowsCount: number | null = null;
+  completedVideoGamesCount: number | null = null;
+
+  currentYear = new Date().getFullYear();
 
   constructor(private mediaService: MediaService) {}
 
-  onButtonClick(): void {
-    this.clicks++;
+  ngOnInit(): void {
+    this.loadTotalCounts();
+    this.loadCompletedCounts();
   }
 
-  generateMedia(): void {
-    this.loading = true;
-    this.error = undefined;
-    this.media = undefined;
 
-    const request = {
-      name: 'Test Media ' + new Date().toISOString(),
-      type: MediaType.BOOK,
-      status: MediaStatus.BACKLOG,
-      imageUrl: null,
-      startedAt: null,
-      completedAt: null
-    };
-
-    this.mediaService.createMedia(request).subscribe({
-      next: (created) => {
-        this.media = created;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Failed to create media', err);
-        this.error = err?.error?.message || 'Failed to create media';
-        this.loading = false;
-      }
+  loadTotalCounts(): void {
+    this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
+      next: (books: Media[]) =>
+        (this.totalBooks = books.filter(b => b.status === MediaStatus.COMPLETED).length),
+      error: (err: unknown) => console.error('Error fetching books:', err),
     });
+
+    this.mediaService.getMediaByType(MediaType.MOVIE).subscribe({
+      next: (movies: Media[]) =>
+        (this.totalMovies = movies.filter(m => m.status === MediaStatus.COMPLETED).length),
+      error: (err: unknown) => console.error('Error fetching movies:', err),
+    });
+
+    this.mediaService.getMediaByType(MediaType.TV).subscribe({
+      next: (shows: Media[]) =>
+        (this.totalTvShows = shows.filter(s => s.status === MediaStatus.COMPLETED).length),
+      error: (err: unknown) => console.error('Error fetching TV shows:', err),
+    });
+
+    this.mediaService.getMediaByType(MediaType.GAME).subscribe({
+      next: (games: Media[]) =>
+        (this.totalVideoGames = games.filter(g => g.status === MediaStatus.COMPLETED).length),
+      error: (err: unknown) => console.error('Error fetching video games:', err),
+    });
+  }
+
+  loadCompletedCounts(): void {
+    this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
+      next: (books: Media[]) =>
+        (this.completedBooksCount = this.countCompletedThisYear(books)),
+      error: (err: unknown) => console.error('Error fetching completed books:', err),
+    });
+
+    this.mediaService.getMediaByType(MediaType.MOVIE).subscribe({
+      next: (movies: Media[]) =>
+        (this.completedMoviesCount = this.countCompletedThisYear(movies)),
+      error: (err: unknown) => console.error('Error fetching completed movies:', err),
+    });
+
+    this.mediaService.getMediaByType(MediaType.TV).subscribe({
+      next: (shows: Media[]) =>
+        (this.completedTvShowsCount = this.countCompletedThisYear(shows)),
+      error: (err: unknown) => console.error('Error fetching completed TV shows:', err),
+    });
+
+    this.mediaService.getMediaByType(MediaType.GAME).subscribe({
+      next: (games: Media[]) =>
+        (this.completedVideoGamesCount = this.countCompletedThisYear(games)),
+      error: (err: unknown) => console.error('Error fetching completed video games:', err),
+    });
+  }
+
+  private countCompletedThisYear(list: Media[]): number {
+    return list.filter(m => {
+      if (m.status !== MediaStatus.COMPLETED || !m.completedAt) {
+        return false;
+      }
+
+      const year = Number(String(m.completedAt).substring(0, 4));
+      console.log(this.currentYear);
+      console.log(m.completedAt);
+      console.log(year);
+      return year === this.currentYear;
+    }).length;
   }
 }

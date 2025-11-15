@@ -1,0 +1,95 @@
+<div class="content-container">
+  <h2 class="cool-title">Add New {{ mediaLabel }}</h2>
+
+  <form (ngSubmit)="onSubmit()" #itemForm="ngForm" class="add-media-form">
+    <!-- Title / Name -->
+    <div class="form-group">
+      <label for="name">Title:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="item.name"
+        required
+        class="form-input"
+        placeholder="Enter title"
+      />
+    </div>
+
+    <!-- Status dropdown -->
+    <div class="form-group">
+      <label for="status">Status:</label>
+      <select
+        id="status"
+        name="status"
+        [(ngModel)]="status"
+        class="form-input"
+        required
+      >
+        <option [ngValue]="MediaStatusEnum.COMPLETED">Completed</option>
+        <option [ngValue]="MediaStatusEnum.IN_PROGRESS">In Progress</option>
+        <option [ngValue]="MediaStatusEnum.BACKLOG">Backlog</option>
+      </select>
+    </div>
+
+    <!-- Completed Date (only if status is COMPLETED) -->
+    <div class="form-group" *ngIf="status === MediaStatusEnum.COMPLETED">
+      <label for="completedAt">Completed Date:</label>
+      <input
+        type="date"
+        id="completedAt"
+        name="completedAt"
+        [(ngModel)]="item.completedAt"
+        required
+        class="form-input"
+      />
+    </div>
+
+    <!-- Image Toggle -->
+    <div class="form-group form-checkbox">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="includeImage"
+          name="includeImage"
+        />
+        Include an image?
+      </label>
+    </div>
+
+    <!-- Manual Image URL Input -->
+    <div *ngIf="includeImage" class="form-group">
+      <label for="imageUrl">
+        Image URL:
+      </label>
+      <input
+        type="text"
+        id="imageUrl"
+        name="imageUrl"
+        [(ngModel)]="item.imageUrl"
+        class="form-input"
+        placeholder="Enter image URL"
+      />
+    </div>
+
+    <!-- Image Preview -->
+    <div *ngIf="includeImage && item.imageUrl" class="image-preview">
+      <p>Image Preview:</p>
+      <img
+        [src]="item.imageUrl"
+        alt="Preview"
+        class="preview-img"
+      />
+    </div>
+
+    <!-- Submit + Cancel -->
+    <div class="button-container">
+      <button type="submit" [disabled]="!itemForm.form.valid" class="submit-btn">
+        Submit
+      </button>
+      <button type="button" (click)="onCancel()" class="cancel-btn">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

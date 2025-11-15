@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import {
-  CreateMediaRequest,
-  Media
-} from '../models/media';
+import { CreateMediaRequest, Media, MediaType, MediaStatus} from '../models/media';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +15,46 @@ export class MediaService {
 
   constructor(private http: HttpClient) {}
 
-  // POST /api/media
   createMedia(request: CreateMediaRequest): Observable<Media> {
     return this.http.post<Media>(this.baseUrl, request);
   }
 
-  // GET /api/media
   getAllMedia(): Observable<Media[]> {
     return this.http.get<Media[]>(this.baseUrl);
   }
 
-  // GET /api/media/{id}
   getMediaById(id: string): Observable<Media> {
     return this.http.get<Media>(`${this.baseUrl}/${id}`);
   }
 
-  // PUT /api/media/{id}
+  getMediaByType(type: MediaType): Observable<Media[]> {
+    return this.http.get<Media[]>(this.baseUrl, {
+      params: { type }
+    });
+  }
+
+  getMediaByStatus(status: MediaStatus): Observable<Media[]> {
+    return this.http.get<Media[]>(this.baseUrl, {
+      params: { status }
+    });
+  }
+
+  getCompletedCountForYear(type: MediaType, year: number): Observable<number> {
+    return this.getMediaByType(type).pipe(
+      map(items =>
+        items.filter(m =>
+          m.status === MediaStatus.COMPLETED &&
+          m.completedAt &&
+          new Date(m.completedAt).getFullYear() === year
+        ).length
+      )
+    );
+  }
+
   updateMedia(id: string, request: Partial<CreateMediaRequest>): Observable<Media> {
     return this.http.put<Media>(`${this.baseUrl}/${id}`, request);
   }
 
-  // DELETE /api/media/{id}
   deleteMedia(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
