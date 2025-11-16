@@ -233,7 +233,7 @@ class MediaControllerTest {
     }
 
     @Test
-    void setStatus_handlesBlankCompletedAt() throws Exception {
+    void setStatusHandlesBlankCompletedAt() throws Exception {
         UUID id = UUID.randomUUID();
 
         var updated = new Media();

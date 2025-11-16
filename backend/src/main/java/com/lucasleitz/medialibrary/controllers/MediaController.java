@@ -97,6 +97,12 @@ public class MediaController {
         return toDto(updated);
     }
 
+    @PatchMapping("/{id}/image-url")
+    public MediaDto setImageUrl(@PathVariable UUID id, @RequestBody(required = false) String imageUrl) {
+        Media updated = mediaService.setImageUrl(id, imageUrl);
+        return toDto(updated);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) {

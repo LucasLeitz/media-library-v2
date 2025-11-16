@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -51,6 +51,36 @@ export class MediaService {
     );
   }
 
+  renameMedia(id: string, newName: string): Observable<Media> {
+    return this.http.patch<Media>(
+      `${this.baseUrl}/${id}/name`,
+      newName,
+      { headers: { 'Content-Type': 'text/plain' } }
+    );
+  }
+
+  setMediaStatus(id: string, status: MediaStatus, completedAt: string | null): Observable<Media> {
+    let params = new HttpParams().set('status', status);
+
+    if (completedAt) {
+      params = params.set('completedAt', completedAt);
+    }
+
+    return this.http.patch<Media>(
+      `${this.baseUrl}/${id}/status`,
+      null,
+      { params }
+    );
+  }
+
+  setMediaImageUrl(id: string, imageUrl: string | null): Observable<Media> {
+    const body = imageUrl ?? '';
+    return this.http.patch<Media>(
+      `${this.baseUrl}/${id}/image-url`,
+      body,
+      { headers: new HttpHeaders({ 'Content-Type': 'text/plain' }) }
+    );
+  }
   updateMedia(id: string, request: Partial<CreateMediaRequest>): Observable<Media> {
     return this.http.put<Media>(`${this.baseUrl}/${id}`, request);
   }

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { MediaComponent } from './components/media/media.component';
 import { UploadMediaComponent } from './components/upload-media/upload-media.component';
+import { EditMediaComponent } from './components/edit-media/edit-media.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { UploadMediaComponent } from './components/upload-media/upload-media.com
     HomeComponent,
     MediaComponent,
     UploadMediaComponent,
+    EditMediaComponent,
   ],
   imports: [
     BrowserModule,

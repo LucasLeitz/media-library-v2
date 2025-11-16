@@ -1,0 +1,87 @@
+<div class="content-container" *ngIf="!isLoading && item; else loadingOrError">
+  <h2 class="cool-title">Edit {{ mediaLabel }}</h2>
+
+  <form class="edit-media-form">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="name">Title:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="item.name"
+        required
+        class="form-input"
+        placeholder="Enter title"
+      />
+    </div>
+
+    <!-- Status -->
+    <div class="form-group">
+      <label for="status">Status:</label>
+      <select
+        id="status"
+        name="status"
+        [(ngModel)]="item.status"
+        required
+        class="form-input"
+      >
+        <option [ngValue]="MediaStatusEnum.COMPLETED">Completed</option>
+        <option [ngValue]="MediaStatusEnum.IN_PROGRESS">In Progress</option>
+        <option [ngValue]="MediaStatusEnum.BACKLOG">Backlog</option>
+      </select>
+    </div>
+
+    <!-- Completed Date (only if status is COMPLETED) -->
+    <div class="form-group" *ngIf="item.status === MediaStatusEnum.COMPLETED">
+      <label for="completedAt">Completed Date:</label>
+      <input
+        type="date"
+        id="completedAt"
+        name="completedAt"
+        [(ngModel)]="item.completedAt"
+        required
+        class="form-input"
+      />
+    </div>
+
+    <!-- New Image URL Input -->
+    <div class="form-group">
+      <label for="newImageUrl">New Image URL:</label>
+      <input
+        type="text"
+        id="newImageUrl"
+        name="newImageUrl"
+        [(ngModel)]="newImageUrl"
+        (input)="updatePreview()"
+        class="form-input"
+        placeholder="Enter new image URL"
+      />
+    </div>
+
+    <!-- Preview of New Image -->
+    <div *ngIf="newImageUrl" class="image-preview">
+      <p>New Image Preview:</p>
+      <img [src]="newImageUrl" alt="New Image Preview" class="preview-img" />
+    </div>
+
+    <!-- Existing Image Preview -->
+    <div *ngIf="!newImageUrl && item.imageUrl" class="image-preview">
+      <p>Current Image Preview:</p>
+      <img [src]="item.imageUrl!" alt="Current Image Preview" class="preview-img" />
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-container">
+      <button (click)="onSave()" type="button" class="save-btn">Save</button>
+      <button (click)="onCancel()" type="button" class="cancel-btn">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #loadingOrError>
+  <div class="content-container">
+    <div *ngIf="isLoading" class="loading-spinner">Loading...</div>
+    <div *ngIf="!isLoading && errorMessage" class="error-message">{{ errorMessage }}</div>
+  </div>
+</ng-template>
