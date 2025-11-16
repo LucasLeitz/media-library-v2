@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { provideHttpClient} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +24,6 @@ import { EditMediaComponent } from './components/edit-media/edit-media.component
     FormsModule,
   ],
   providers: [
-    provideClientHydration(),
     provideHttpClient()
   ],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { MediaStatus, MediaType, CreateMediaRequest } from '../../models/media';
+import {MediaStatus, MediaType, CreateMediaRequest, Media} from '../../models/media';
 import { MediaService } from '../../services/media.service';
 
 @Component({
@@ -24,10 +24,13 @@ export class UploadMediaComponent implements OnInit {
 
   readonly MediaStatusEnum = MediaStatus;
 
-  item = {
+  item: Partial<Media> = {
     name: '',
     imageUrl: '',
-    completedAt: '',
+    startedAt: null,
+    completedAt: null,
+    status: MediaStatus.COMPLETED,
+    type: undefined,
   };
 
   includeImage = false;
@@ -40,14 +43,32 @@ export class UploadMediaComponent implements OnInit {
 
   ngOnInit(): void {
     const typeFromRoute = this.route.snapshot.data['mediaType'] as MediaType | undefined;
-
     if (!typeFromRoute) {
       throw new Error('Invalid or missing media type');
     }
 
     this.mediaType = typeFromRoute;
 
-    this.status = MediaStatus.COMPLETED;
+    const nav = this.router.getCurrentNavigation();
+    const statusFromState = nav?.extras.state?.['status'] as MediaStatus | undefined;
+
+    const statusFromQueryStr = this.route.snapshot.queryParamMap.get('status');
+    let statusFromQuery: MediaStatus | undefined;
+
+    if (statusFromQueryStr === 'COMPLETED') {
+      statusFromQuery = MediaStatus.COMPLETED;
+    } else if (statusFromQueryStr === 'IN_PROGRESS') {
+      statusFromQuery = MediaStatus.IN_PROGRESS;
+    } else if (statusFromQueryStr === 'BACKLOG') {
+      statusFromQuery = MediaStatus.BACKLOG;
+    }
+
+    const initialStatus =
+      statusFromState ??
+      statusFromQuery ??
+      MediaStatus.COMPLETED;
+
+    this.item.status = initialStatus;
   }
 
   get mediaLabel(): string {
@@ -61,21 +82,27 @@ export class UploadMediaComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.item.name.trim()) {
+    const name = this.item.name?.trim() ?? '';
+
+    if (!name) {
       alert('Please enter a title/name.');
       return;
     }
 
+    const status = this.item.status ?? MediaStatus.COMPLETED;
+
     const completedAt =
-      this.status === MediaStatus.COMPLETED && this.item.completedAt
+      status === MediaStatus.COMPLETED && this.item.completedAt
         ? this.item.completedAt
         : null;
 
     const payload: CreateMediaRequest = {
-      name: this.item.name.trim(),
-      imageUrl: this.includeImage && this.item.imageUrl ? this.item.imageUrl.trim() : null,
+      name,
+      imageUrl: this.includeImage && this.item.imageUrl
+        ? this.item.imageUrl.trim()
+        : null,
       type: this.mediaType,
-      status: this.status,
+      status,
       startedAt: null,
       completedAt,
     };
@@ -83,9 +110,7 @@ export class UploadMediaComponent implements OnInit {
     this.mediaService.createMedia(payload).subscribe({
       next: () => {
         const routeSegment = this.mediaRouteMap[this.mediaType];
-
         const redirectPath = `/${routeSegment}`;
-
         this.router.navigate([redirectPath]);
       },
       error: (err: unknown) => {

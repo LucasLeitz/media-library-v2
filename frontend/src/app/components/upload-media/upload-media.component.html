@@ -20,9 +20,9 @@
       <select
         id="status"
         name="status"
-        [(ngModel)]="status"
-        class="form-input"
+        [(ngModel)]="item.status"
         required
+        class="form-input"
       >
         <option [ngValue]="MediaStatusEnum.COMPLETED">Completed</option>
         <option [ngValue]="MediaStatusEnum.IN_PROGRESS">In Progress</option>
@@ -30,7 +30,7 @@
       </select>
     </div>
 
-    <div class="form-group" *ngIf="status === MediaStatusEnum.COMPLETED">
+    <div class="form-group" *ngIf="item.status === MediaStatusEnum.COMPLETED">
       <label for="completedAt">Completed Date:</label>
       <input
         type="date"

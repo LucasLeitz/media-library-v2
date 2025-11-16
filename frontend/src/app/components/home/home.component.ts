@@ -86,9 +86,6 @@ export class HomeComponent implements OnInit {
       }
 
       const year = Number(String(m.completedAt).substring(0, 4));
-      console.log(this.currentYear);
-      console.log(m.completedAt);
-      console.log(year);
       return year === this.currentYear;
     }).length;
   }

@@ -11,17 +11,22 @@ import { MediaService } from '../../services/media.service';
 })
 export class MediaComponent implements OnInit {
 
-  private readonly mediaRouteMap: Record<MediaType, string> = {
-    [MediaType.BOOK]: 'book',
-    [MediaType.MOVIE]: 'movie',
-    [MediaType.TV]: 'tv',
-    [MediaType.GAME]: 'game',
+  private readonly listRouteMap: Record<MediaType, string> = {
+    [MediaType.BOOK]:  'books',
+    [MediaType.MOVIE]: 'movies',
+    [MediaType.TV]:    'tv',
+    [MediaType.GAME]:  'games',
+  };
+
+  private readonly addRouteMap: Record<MediaType, string> = {
+    [MediaType.BOOK]:  'add-book',
+    [MediaType.MOVIE]: 'add-movie',
+    [MediaType.TV]:    'add-tv',
+    [MediaType.GAME]:  'add-game',
   };
 
   mediaType!: MediaType;
-  addRoute!: string;
-  editRoutePrefix!: string;
-  backlogRoute!: string;
+  currentStatus!: MediaStatus;
 
   mediaList: Media[] = [];
   filteredList: Media[] = [];
@@ -38,29 +43,24 @@ export class MediaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const typeFromRoute = this.route.snapshot.data['mediaType'] as MediaType | undefined;
+    const typeFromRoute   = this.route.snapshot.data['mediaType'] as MediaType | undefined;
+    const statusFromRoute = this.route.snapshot.data['status'] as MediaStatus | undefined;
 
-    if (!typeFromRoute) {
-      console.error('Invalid or missing mediaType!');
+    if (!typeFromRoute || !statusFromRoute) {
+      console.error('Missing mediaType or status in route data!');
       return;
     }
 
     this.mediaType = typeFromRoute;
-
-    const routeSegment = this.mediaRouteMap[this.mediaType];
-    this.addRoute = `/add-${routeSegment}`;
-    this.editRoutePrefix = `/edit-${routeSegment}`;
-    this.backlogRoute = `/${routeSegment}s/backlog`;
+    this.currentStatus = statusFromRoute;
 
     this.mediaService.getMediaByType(this.mediaType).subscribe({
       next: (data: Media[]) => {
-        this.mediaList = data.filter(m => m.status === MediaStatus.COMPLETED);
+        this.mediaList = data.filter(m => m.status === this.currentStatus);
         this.filteredList = [...this.mediaList];
         this.flippedCards = this.mediaList.map(() => false);
       },
-      error: (err: unknown) => {
-        console.error('Error loading media list:', err);
-      }
+      error: (err: unknown) => console.error('Error loading media:', err),
     });
   }
 
@@ -71,6 +71,18 @@ export class MediaComponent implements OnInit {
       case MediaType.TV:    return 'TV Show';
       case MediaType.GAME:  return 'Video Game';
       default:              return 'Media';
+    }
+  }
+
+  get pageTitle(): string {
+    const base = this.mediaLabel;
+    switch (this.currentStatus) {
+      case MediaStatus.BACKLOG:
+        return `Backlog ${base} List`;
+      case MediaStatus.IN_PROGRESS:
+        return `In-Progress ${base} List`;
+      default:
+        return `Completed ${base} List`;
     }
   }
 
@@ -138,7 +150,17 @@ export class MediaComponent implements OnInit {
   }
 
   addItem(): void {
-    this.router.navigate([this.addRoute]);
+    const addRoute = this.addRouteMap[this.mediaType];
+
+    if (!addRoute) {
+      console.error('No addRoute found for mediaType', this.mediaType);
+      return;
+    }
+
+    // Use currentStatus so Add page defaults correctly
+    this.router.navigate([`/${addRoute}`], {
+      state: { status: this.currentStatus },
+    });
   }
 
   editItem(index: number): void {
@@ -147,7 +169,18 @@ export class MediaComponent implements OnInit {
     this.router.navigate(['/edit-media', itemToEdit.id]);
   }
 
+  goToCompleted(): void {
+    const segment = this.listRouteMap[this.mediaType];
+    this.router.navigate([`/${segment}`]);
+  }
+
   goToBacklog(): void {
-    this.router.navigate([this.backlogRoute]);
+    const segment = this.listRouteMap[this.mediaType];
+    this.router.navigate([`/${segment}/backlog`]);
+  }
+
+  goToInProgress(): void {
+    const segment = this.listRouteMap[this.mediaType];
+    this.router.navigate([`/${segment}/in-progress`]);
   }
 }

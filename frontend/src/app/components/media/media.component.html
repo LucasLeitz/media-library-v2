@@ -1,7 +1,5 @@
 <div class="content-container">
-  <h2 class="cool-title" *ngIf="mediaType">
-    Completed {{ mediaLabel }} List
-  </h2>
+  <h2 class="cool-title">{{ pageTitle }}</h2>
 
   <div class="button-container">
     <button class="add-item-btn" (click)="addItem()">Add {{ mediaLabel }}s</button>
@@ -9,6 +7,8 @@
     <button class="sort-items-btn" (click)="toggleSortOptions()">Sort {{ mediaLabel }}s</button>
     <button class="filter-items-btn">Filter {{ mediaLabel }}s</button>
     <button class="backlog-btn" (click)="goToBacklog()">View Backlog</button>
+    <button class="inprogress-btn" (click)="goToInProgress()">View In-Progress</button>
+    <button class="completed-btn" (click)="goToCompleted()">View Completed</button>
   </div>
 
   <!-- Sort Options Dropdown -->
