@@ -21,7 +21,7 @@
       class="sort-select"
     >
       <option value="name">Title</option>
-      <option value="completedAt">Completed Date</option>
+      <option value="completedAt" *ngIf="currentStatus === 'COMPLETED'">Completed Date</option>
     </select>
   </div>
 
