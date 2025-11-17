@@ -18,13 +18,6 @@ export class MediaComponent implements OnInit {
     [MediaType.GAME]:  'games',
   };
 
-  private readonly addRouteMap: Record<MediaType, string> = {
-    [MediaType.BOOK]:  'add-book',
-    [MediaType.MOVIE]: 'add-movie',
-    [MediaType.TV]:    'add-tv',
-    [MediaType.GAME]:  'add-game',
-  };
-
   mediaType!: MediaType;
   currentStatus!: MediaStatus;
 
@@ -150,16 +143,11 @@ export class MediaComponent implements OnInit {
   }
 
   addItem(): void {
-    const addRoute = this.addRouteMap[this.mediaType];
-
-    if (!addRoute) {
-      console.error('No addRoute found for mediaType', this.mediaType);
-      return;
-    }
-
-    // Use currentStatus so Add page defaults correctly
-    this.router.navigate([`/${addRoute}`], {
-      state: { status: this.currentStatus },
+    this.router.navigate(['/add'], {
+      state: {
+        mediaType: this.mediaType,
+        status: this.currentStatus,
+      },
     });
   }
 

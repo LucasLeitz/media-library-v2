@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import {MediaStatus, MediaType, CreateMediaRequest, Media} from '../../models/media';
+import { MediaStatus, MediaType, CreateMediaRequest, Media } from '../../models/media';
 import { MediaService } from '../../services/media.service';
 
 @Component({
@@ -11,18 +11,25 @@ import { MediaService } from '../../services/media.service';
 })
 export class UploadMediaComponent implements OnInit {
 
-  private readonly mediaRouteMap: Record<MediaType, string> = {
-    [MediaType.BOOK]: 'books',
+  private readonly listRouteMap: Record<MediaType, string> = {
+    [MediaType.BOOK]:  'books',
     [MediaType.MOVIE]: 'movies',
-    [MediaType.TV]:   'tv',
-    [MediaType.GAME]: 'games',
+    [MediaType.TV]:    'tv',
+    [MediaType.GAME]:  'games',
   };
 
   mediaType!: MediaType;
-
-  status: MediaStatus = MediaStatus.COMPLETED;
+  initialStatus!: MediaStatus;
 
   readonly MediaStatusEnum = MediaStatus;
+  readonly MediaTypeEnum = MediaType;
+
+  readonly mediaTypeOptions = [
+    { value: MediaType.BOOK, label: 'Book' },
+    { value: MediaType.MOVIE, label: 'Movie' },
+    { value: MediaType.TV, label: 'TV Show' },
+    { value: MediaType.GAME, label: 'Video Game' },
+  ];
 
   item: Partial<Media> = {
     name: '',
@@ -42,33 +49,21 @@ export class UploadMediaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const typeFromRoute = this.route.snapshot.data['mediaType'] as MediaType | undefined;
-    if (!typeFromRoute) {
-      throw new Error('Invalid or missing media type');
+    // First try to get state from router navigation
+    let mediaTypeFromState = this.router.getCurrentNavigation()?.extras.state?.['mediaType'] as MediaType | undefined;
+    let statusFromState = this.router.getCurrentNavigation()?.extras.state?.['status'] as MediaStatus | undefined;
+
+    // If getCurrentNavigation() returns null, fall back to history.state
+    if (!mediaTypeFromState || !statusFromState) {
+      mediaTypeFromState = history.state?.['mediaType'] as MediaType | undefined;
+      statusFromState = history.state?.['status'] as MediaStatus | undefined;
     }
 
-    this.mediaType = typeFromRoute;
+    this.mediaType    = mediaTypeFromState ?? MediaType.BOOK;
+    this.initialStatus = statusFromState ?? MediaStatus.COMPLETED;
 
-    const nav = this.router.getCurrentNavigation();
-    const statusFromState = nav?.extras.state?.['status'] as MediaStatus | undefined;
-
-    const statusFromQueryStr = this.route.snapshot.queryParamMap.get('status');
-    let statusFromQuery: MediaStatus | undefined;
-
-    if (statusFromQueryStr === 'COMPLETED') {
-      statusFromQuery = MediaStatus.COMPLETED;
-    } else if (statusFromQueryStr === 'IN_PROGRESS') {
-      statusFromQuery = MediaStatus.IN_PROGRESS;
-    } else if (statusFromQueryStr === 'BACKLOG') {
-      statusFromQuery = MediaStatus.BACKLOG;
-    }
-
-    const initialStatus =
-      statusFromState ??
-      statusFromQuery ??
-      MediaStatus.COMPLETED;
-
-    this.item.status = initialStatus;
+    this.item.type   = this.mediaType;
+    this.item.status = this.initialStatus;
   }
 
   get mediaLabel(): string {
@@ -81,9 +76,13 @@ export class UploadMediaComponent implements OnInit {
     }
   }
 
+  onMediaTypeChange(newType: MediaType): void {
+    this.mediaType = newType;
+    this.item.type = newType;
+  }
+
   onSubmit(): void {
     const name = this.item.name?.trim() ?? '';
-
     if (!name) {
       alert('Please enter a title/name.');
       return;
@@ -109,8 +108,20 @@ export class UploadMediaComponent implements OnInit {
 
     this.mediaService.createMedia(payload).subscribe({
       next: () => {
-        const routeSegment = this.mediaRouteMap[this.mediaType];
-        const redirectPath = `/${routeSegment}`;
+        const segment = this.listRouteMap[this.mediaType];
+
+        let redirectPath: string;
+        switch (status) {
+          case MediaStatus.BACKLOG:
+            redirectPath = `/${segment}/backlog`;
+            break;
+          case MediaStatus.IN_PROGRESS:
+            redirectPath = `/${segment}/in-progress`;
+            break;
+          default:
+            redirectPath = `/${segment}`;
+        }
+
         this.router.navigate([redirectPath]);
       },
       error: (err: unknown) => {
@@ -121,8 +132,20 @@ export class UploadMediaComponent implements OnInit {
   }
 
   onCancel(): void {
-    const routeSegment = this.mediaRouteMap[this.mediaType];
-    const targetRoute = `/${routeSegment}`;
-    this.router.navigate([targetRoute]);
+    const segment = this.listRouteMap[this.mediaType];
+
+    let targetPath: string;
+    switch (this.initialStatus) {
+      case MediaStatus.BACKLOG:
+        targetPath = `/${segment}/backlog`;
+        break;
+      case MediaStatus.IN_PROGRESS:
+        targetPath = `/${segment}/in-progress`;
+        break;
+      default:
+        targetPath = `/${segment}`;
+    }
+
+    this.router.navigate([targetPath]);
   }
 }

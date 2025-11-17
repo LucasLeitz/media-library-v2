@@ -25,11 +25,7 @@ export const routes: Routes = [
   { path: 'games/backlog',      component: MediaComponent, data: { mediaType: MediaType.GAME,  status: MediaStatus.BACKLOG } },
   { path: 'games/in-progress',  component: MediaComponent, data: { mediaType: MediaType.GAME,  status: MediaStatus.IN_PROGRESS } },
 
-  { path: 'add-book',  component: UploadMediaComponent, data: { mediaType: MediaType.BOOK } },
-  { path: 'add-movie', component: UploadMediaComponent, data: { mediaType: MediaType.MOVIE } },
-  { path: 'add-tv',    component: UploadMediaComponent, data: { mediaType: MediaType.TV } },
-  { path: 'add-game',  component: UploadMediaComponent, data: { mediaType: MediaType.GAME } },
-
+  { path: 'add', component: UploadMediaComponent },
   { path: 'edit-media/:id', component: EditMediaComponent },
 
 ];

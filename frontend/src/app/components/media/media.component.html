@@ -6,9 +6,9 @@
     <button class="search-item-btn" (click)="toggleSearch()">Search for {{ mediaLabel }}s</button>
     <button class="sort-items-btn" (click)="toggleSortOptions()">Sort {{ mediaLabel }}s</button>
     <button class="filter-items-btn">Filter {{ mediaLabel }}s</button>
-    <button class="backlog-btn" (click)="goToBacklog()">View Backlog</button>
-    <button class="inprogress-btn" (click)="goToInProgress()">View In-Progress</button>
-    <button class="completed-btn" (click)="goToCompleted()">View Completed</button>
+    <button class="backlog-btn" (click)="goToBacklog()" *ngIf="currentStatus !== 'BACKLOG'">View Backlog</button>
+    <button class="inprogress-btn" (click)="goToInProgress()" *ngIf="currentStatus !== 'IN_PROGRESS'">View In-Progress</button>
+    <button class="completed-btn" (click)="goToCompleted()" *ngIf="currentStatus !== 'COMPLETED'">View Completed</button>
   </div>
 
   <!-- Sort Options Dropdown -->

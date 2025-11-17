@@ -1,7 +1,23 @@
 <div class="content-container">
-  <h2 class="cool-title">Add New {{ mediaLabel }}</h2>
+  <h2 class="cool-title">Add Media Item</h2>
 
   <form (ngSubmit)="onSubmit()" #itemForm="ngForm" class="add-media-form">
+    <div class="form-group">
+      <label for="mediaType">Media Type:</label>
+      <select
+        id="mediaType"
+        name="mediaType"
+        [(ngModel)]="mediaType"
+        (change)="onMediaTypeChange(mediaType)"
+        required
+        class="form-input"
+      >
+        <option *ngFor="let option of mediaTypeOptions" [ngValue]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
     <div class="form-group">
       <label for="name">Title:</label>
       <input
@@ -76,7 +92,6 @@
       />
     </div>
 
-    <!-- Submit + Cancel -->
     <div class="button-container">
       <button type="submit" [disabled]="!itemForm.form.valid" class="submit-btn">
         Submit
