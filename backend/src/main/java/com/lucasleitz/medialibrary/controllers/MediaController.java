@@ -1,10 +1,13 @@
 package com.lucasleitz.medialibrary.controllers;
 
+import com.lucasleitz.medialibrary.dtos.BookDetailsDto;
+import com.lucasleitz.medialibrary.dtos.GameDetailsDto;
 import com.lucasleitz.medialibrary.entities.Media;
 import com.lucasleitz.medialibrary.enums.MediaStatus;
 import com.lucasleitz.medialibrary.services.MediaService;
 import com.lucasleitz.medialibrary.enums.MediaType;
 import com.lucasleitz.medialibrary.dtos.MediaDto;
+
 import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -120,6 +123,22 @@ public class MediaController {
         dto.setCompletedAt(m.getCompletedAt());
         dto.setCreatedAt(m.getCreatedAt());
         dto.setUpdatedAt(m.getUpdatedAt());
+
+        if (m.getBookDetails() != null) {
+            BookDetailsDto bookDto = new BookDetailsDto();
+            bookDto.setMediaId(m.getBookDetails().getMediaId());
+            bookDto.setAuthor(m.getBookDetails().getAuthor());
+            dto.setBookDetails(bookDto);
+        }
+
+        if (m.getGameDetails() != null) {
+            GameDetailsDto gameDto = new GameDetailsDto();
+            gameDto.setMediaId(m.getGameDetails().getMediaId());
+            gameDto.setPlatform(m.getGameDetails().getPlatform());
+            dto.setGameDetails(gameDto);
+        }
+
         return dto;
     }
+
 }

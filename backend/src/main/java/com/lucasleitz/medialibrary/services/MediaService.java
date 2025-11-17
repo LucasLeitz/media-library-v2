@@ -4,7 +4,6 @@ import com.lucasleitz.medialibrary.entities.Media;
 import com.lucasleitz.medialibrary.enums.MediaStatus;
 import com.lucasleitz.medialibrary.enums.MediaType;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

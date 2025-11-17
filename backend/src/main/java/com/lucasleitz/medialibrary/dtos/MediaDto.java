@@ -17,6 +17,8 @@ public class MediaDto {
     private LocalDate completedAt;
     private Instant createdAt;
     private Instant updatedAt;
+    private BookDetailsDto bookDetails;
+    private GameDetailsDto gameDetails;
 
     public MediaDto() {}
 
@@ -91,4 +93,21 @@ public class MediaDto {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public BookDetailsDto getBookDetails() {
+        return bookDetails;
+    }
+
+    public void setBookDetails(BookDetailsDto bookDetails) {
+        this.bookDetails = bookDetails;
+    }
+
+    public GameDetailsDto getGameDetails() {
+        return gameDetails;
+    }
+
+    public void setGameDetails(GameDetailsDto gameDetails) {
+        this.gameDetails = gameDetails;
+    }
+
 }

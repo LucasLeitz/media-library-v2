@@ -5,8 +5,6 @@ import com.lucasleitz.medialibrary.enums.MediaType;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -95,6 +93,23 @@ public class Media {
 
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+    public BookDetails getBookDetails() {
+        return bookDetails;
+    }
+
+    public void setBookDetails(BookDetails bookDetails) {
+        this.bookDetails = bookDetails;
+    }
+
+    public GameDetails getGameDetails() {
+        return gameDetails;
+    }
+
+    public void setGameDetails(GameDetails gameDetails) {
+        this.gameDetails = gameDetails;
+    }
+
 
     @Override
     public boolean equals(Object o) {

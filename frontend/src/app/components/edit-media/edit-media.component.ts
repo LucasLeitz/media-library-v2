@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaService } from '../../services/media.service';
-import { Media, MediaType, MediaStatus } from '../../models/media';
+import {Media, MediaType, MediaStatus, GamePlatform} from '../../models/media';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -13,11 +13,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class EditMediaComponent implements OnInit {
 
   item: Media | null = null;
-
   newImageUrl = '';
   isLoading = true;
   errorMessage: string | null = null;
-
+  selectedPlatform: string = '';
   readonly MediaStatusEnum = MediaStatus;
 
   private readonly mediaRouteMap: Record<MediaType, string> = {
@@ -45,6 +44,9 @@ export class EditMediaComponent implements OnInit {
       next: (data: Media) => {
         this.item = data;
         this.newImageUrl = data.imageUrl ?? '';
+
+        this.selectedPlatform = data.gameDetails?.platform || '';
+
         this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -83,15 +85,13 @@ export class EditMediaComponent implements OnInit {
 
     const statusToSend = this.item.status;
 
-    // Normalize completedAt for COMPLETED vs others
     let completedAt: string | null = null;
     if (statusToSend === MediaStatus.COMPLETED && this.item.completedAt) {
-      completedAt = this.item.completedAt; // already in YYYY-MM-DD from date input
+      completedAt = this.item.completedAt;
     } else {
       this.item.completedAt = null;
     }
 
-    // Determine if image actually changed
     const originalImage = this.item.imageUrl ?? '';
     const trimmedNewImage = this.newImageUrl.trim();
     const imageChanged = trimmedNewImage !== originalImage;
@@ -99,13 +99,10 @@ export class EditMediaComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
 
-    // 1) Rename
     this.mediaService.renameMedia(id, trimmedName).subscribe({
       next: () => {
-        // 2) Status + completedAt
         this.mediaService.setMediaStatus(id, statusToSend, completedAt).subscribe({
           next: () => {
-            // 3) Image (only if changed)
             if (imageChanged) {
               const imageToSend = trimmedNewImage.length > 0 ? trimmedNewImage : null;
               this.mediaService.setMediaImageUrl(id, imageToSend).subscribe({
@@ -158,7 +155,71 @@ export class EditMediaComponent implements OnInit {
   }
 
   updatePreview(): void {
-    // Just here if you want to log / debug previews
     console.log('Preview updated with URL:', this.newImageUrl);
   }
+
+  updateAuthor(author: string) {
+    if (!this.item || !author.trim()) return;
+
+    if (!this.item.bookDetails) {
+      this.mediaService.createBookDetails(this.item.id, author).subscribe({
+        next: () => {
+          console.log('Book details created successfully');
+          if (this.item) {
+            this.item.bookDetails = { mediaId: this.item.id, author };
+          }
+        },
+        error: (error) => {
+          console.error('Error creating book details', error);
+        }
+      });
+    } else {
+      this.mediaService.updateBookAuthor(this.item.id, author).subscribe({
+        next: () => {
+          console.log('Author updated successfully');
+          if (this.item) {
+            this.item.bookDetails = { mediaId: this.item.id, author };
+          }
+        },
+        error: (error) => {
+          console.error('Error updating author', error);
+        }
+      });
+    }
+  }
+
+
+  updatePlatform(platform: string) {
+    if (!this.item || !platform) return;
+
+    if (!this.item.gameDetails) {
+      this.mediaService.createGameDetails(this.item.id, platform).subscribe({
+        next: () => {
+          console.log('Game details created successfully');
+          if (this.item) {
+            this.item.gameDetails = { mediaId: this.item.id, platform: platform as GamePlatform };
+            this.selectedPlatform = platform;
+          }
+        },
+        error: (error) => {
+          console.error('Error creating game details', error);
+        }
+      });
+    } else {
+      this.mediaService.updateGamePlatform(this.item.id, platform).subscribe({
+        next: () => {
+          console.log('Platform updated successfully');
+          if (this.item) {
+            this.item.gameDetails = { mediaId: this.item.id, platform: platform as GamePlatform };
+            this.selectedPlatform = platform;
+          }
+        },
+        error: (error) => {
+          console.error('Error updating platform', error);
+        }
+      });
+    }
+  }
+
+
 }

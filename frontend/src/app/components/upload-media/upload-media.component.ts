@@ -20,6 +20,8 @@ export class UploadMediaComponent implements OnInit {
 
   mediaType!: MediaType;
   initialStatus!: MediaStatus;
+  author: string = '';
+  platform: string = '';
 
   readonly MediaStatusEnum = MediaStatus;
   readonly MediaTypeEnum = MediaType;
@@ -49,11 +51,9 @@ export class UploadMediaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // First try to get state from router navigation
     let mediaTypeFromState = this.router.getCurrentNavigation()?.extras.state?.['mediaType'] as MediaType | undefined;
     let statusFromState = this.router.getCurrentNavigation()?.extras.state?.['status'] as MediaStatus | undefined;
 
-    // If getCurrentNavigation() returns null, fall back to history.state
     if (!mediaTypeFromState || !statusFromState) {
       mediaTypeFromState = history.state?.['mediaType'] as MediaType | undefined;
       statusFromState = history.state?.['status'] as MediaStatus | undefined;
@@ -107,22 +107,15 @@ export class UploadMediaComponent implements OnInit {
     };
 
     this.mediaService.createMedia(payload).subscribe({
-      next: () => {
-        const segment = this.listRouteMap[this.mediaType];
-
-        let redirectPath: string;
-        switch (status) {
-          case MediaStatus.BACKLOG:
-            redirectPath = `/${segment}/backlog`;
-            break;
-          case MediaStatus.IN_PROGRESS:
-            redirectPath = `/${segment}/in-progress`;
-            break;
-          default:
-            redirectPath = `/${segment}`;
+      next: (createdMedia) => {
+        // After creating media, handle type-specific details
+        if (this.mediaType === MediaType.BOOK && this.author.trim()) {
+          this.createBookDetails(createdMedia.id);
+        } else if (this.mediaType === MediaType.GAME && this.platform) {
+          this.createGameDetails(createdMedia.id);
+        } else {
+          this.navigateAfterCreate(status);
         }
-
-        this.router.navigate([redirectPath]);
       },
       error: (err: unknown) => {
         console.error('Error adding item:', err);
@@ -131,21 +124,51 @@ export class UploadMediaComponent implements OnInit {
     });
   }
 
-  onCancel(): void {
+  private createBookDetails(mediaId: string): void {
+    this.mediaService.createBookDetails(mediaId, this.author).subscribe({
+      next: () => {
+        console.log('Book details created successfully');
+        this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
+      },
+      error: (err: unknown) => {
+        console.error('Error creating book details:', err);
+        this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
+      }
+    });
+  }
+
+  private createGameDetails(mediaId: string): void {
+    this.mediaService.createGameDetails(mediaId, this.platform).subscribe({
+      next: () => {
+        console.log('Game details created successfully');
+        this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
+      },
+      error: (err: unknown) => {
+        console.error('Error creating game details:', err);
+        this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
+      }
+    });
+  }
+
+  private navigateAfterCreate(status: MediaStatus): void {
     const segment = this.listRouteMap[this.mediaType];
 
-    let targetPath: string;
-    switch (this.initialStatus) {
+    let redirectPath: string;
+    switch (status) {
       case MediaStatus.BACKLOG:
-        targetPath = `/${segment}/backlog`;
+        redirectPath = `/${segment}/backlog`;
         break;
       case MediaStatus.IN_PROGRESS:
-        targetPath = `/${segment}/in-progress`;
+        redirectPath = `/${segment}/in-progress`;
         break;
       default:
-        targetPath = `/${segment}`;
+        redirectPath = `/${segment}`;
     }
 
-    this.router.navigate([targetPath]);
+    this.router.navigate([redirectPath]);
+  }
+
+  onCancel(): void {
+    this.navigateAfterCreate(this.initialStatus ?? MediaStatus.COMPLETED);
   }
 }

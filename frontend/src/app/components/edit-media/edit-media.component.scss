@@ -83,12 +83,13 @@ label {
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 16px; /* Space between buttons */
+  gap: 16px;
 }
 
-/* Save and Cancel buttons */
 .save-btn,
-.cancel-btn {
+.cancel-btn,
+.update-platform-button,
+.update-author-button {
   background: #111;
   border: 1px solid #00ffcc;
   color: #00ffcc;
@@ -102,19 +103,19 @@ label {
 }
 
 .save-btn:hover,
-.cancel-btn:hover {
+.cancel-btn:hover,
+.update-platform-button:hover,
+.update-author-button:hover, {
   box-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
   transform: scale(1.05);
 }
 
-/* Loading spinner */
 .loading-spinner {
   text-align: center;
   font-size: 1.5rem;
   color: #00ffcc;
 }
 
-/* Error message styling */
 .error-message {
   color: #ff4d4d;
   font-size: 1.2rem;
