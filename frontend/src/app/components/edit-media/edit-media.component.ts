@@ -136,6 +136,14 @@ export class EditMediaComponent implements OnInit {
   }
 
   private navigateBack(): void {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    if (returnUrl) {
+      this.isLoading = false;
+      this.router.navigateByUrl(returnUrl);
+      return;
+    }
+
     if (!this.item) {
       this.router.navigate(['/home']);
       return;
@@ -146,6 +154,13 @@ export class EditMediaComponent implements OnInit {
   }
 
   onCancel(): void {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+      return;
+    }
+
     if (!this.item) {
       this.router.navigate(['/home']);
       return;
@@ -220,6 +235,5 @@ export class EditMediaComponent implements OnInit {
       });
     }
   }
-
 
 }

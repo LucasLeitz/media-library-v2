@@ -3,9 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaService } from '../../services/media.service';
 import { Media, MediaType } from '../../models/media';
-import { FormatEnumPipe } from "../../pipes/format-enum.pipe";
 import { HttpErrorResponse } from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-view-media',
@@ -58,7 +56,9 @@ export class ViewMediaComponent implements OnInit {
 
   editMedia(): void {
     if (this.item) {
-      this.router.navigate(['/edit-media/', this.item.id]);
+      this.router.navigate(['/edit-media/', this.item.id], {
+        queryParams: { returnUrl: `/view-media/${this.item.id}` }
+      });
     }
   }
 
