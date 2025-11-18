@@ -3,7 +3,8 @@ import { HomeComponent } from './components/home/home.component';
 import { MediaComponent } from './components/media/media.component';
 import { EditMediaComponent } from "./components/edit-media/edit-media.component";
 import { UploadMediaComponent } from './components/upload-media/upload-media.component';
-import {MediaStatus, MediaType} from './models/media';
+import { ViewMediaComponent } from './components/view-media/view-media.component';
+import { MediaStatus, MediaType } from './models/media';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,5 +28,6 @@ export const routes: Routes = [
 
   { path: 'add', component: UploadMediaComponent },
   { path: 'edit-media/:id', component: EditMediaComponent },
+  { path: 'view-media/:id', component: ViewMediaComponent }
 
 ];

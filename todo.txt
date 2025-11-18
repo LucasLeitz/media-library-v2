@@ -6,7 +6,6 @@
 - Add working filter button on media pages
 
 
-
 ----- Future Ideas -----
 - Implement a "suggestion" page where people viewing the site can suggest a media item
 

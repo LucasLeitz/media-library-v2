@@ -61,7 +61,7 @@
         <!-- Back of the card -->
         <div class="card-back">
           <div class="button-group">
-            <button class="info-btn" (click)="$event.stopPropagation()">More Info</button>
+            <button class="info-btn" (click)="viewItem(i); $event.stopPropagation()">More Info</button>
             <button class="edit-btn" (click)="editItem(i); $event.stopPropagation()">Edit</button>
             <button class="delete-btn" (click)="removeItem(i); $event.stopPropagation()">Delete</button>
           </div>

@@ -98,8 +98,4 @@ export class MediaService {
     return this.http.patch(`${this.baseUrl}/gamedetails/${mediaId}/platform`, null, { params });
   }
 
-
-
-
-
 }

@@ -157,6 +157,12 @@ export class MediaComponent implements OnInit {
     this.router.navigate(['/edit-media', itemToEdit.id]);
   }
 
+  viewItem(index: number): void {
+    const itemToView = this.filteredList[index];
+    if (!itemToView?.id) return;
+    this.router.navigate(['/view-media', itemToView.id]);
+  }
+
   goToCompleted(): void {
     const segment = this.listRouteMap[this.mediaType];
     this.router.navigate([`/${segment}`]);
