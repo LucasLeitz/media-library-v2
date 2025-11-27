@@ -25,7 +25,9 @@ describe('FormatEnumPipe', () => {
   });
 
   it('should handle multiple underscores', () => {
-    expect(pipe.transform('SUPER_NINTENDO_ENTERTAINMENT_SYSTEM')).toBe('Super Nintendo Entertainment System');
+    expect(pipe.transform('SUPER_NINTENDO_ENTERTAINMENT_SYSTEM')).toBe(
+      'Super Nintendo Entertainment System',
+    );
   });
 
   it('should return empty string for null', () => {

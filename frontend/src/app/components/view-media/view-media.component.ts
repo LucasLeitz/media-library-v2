@@ -3,17 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaService } from '../../services/media.service';
 import { Media, MediaType } from '../../models/media';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-media',
   templateUrl: './view-media.component.html',
-  styleUrls: ['./view-media.component.scss']
+  styleUrls: ['./view-media.component.scss'],
 })
-
-
 export class ViewMediaComponent implements OnInit {
-
   item: Media | null = null;
   errorMessage: string | null = null;
   isLoading = true;
@@ -22,14 +19,14 @@ export class ViewMediaComponent implements OnInit {
   private readonly mediaRouteMap: Record<MediaType, string> = {
     [MediaType.BOOK]: 'books',
     [MediaType.MOVIE]: 'movies',
-    [MediaType.TV]:   'tv',
+    [MediaType.TV]: 'tv',
     [MediaType.GAME]: 'games',
   };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private mediaService: MediaService
+    private mediaService: MediaService,
   ) {}
 
   ngOnInit() {
@@ -50,14 +47,14 @@ export class ViewMediaComponent implements OnInit {
         this.errorMessage = 'Failed to load media item.';
         console.error('Load error:', err.message);
         this.isLoading = false;
-      }
+      },
     });
   }
 
   editMedia(): void {
     if (this.item) {
       this.router.navigate(['/edit-media/', this.item.id], {
-        queryParams: { returnUrl: `/view-media/${this.item.id}` }
+        queryParams: { returnUrl: `/view-media/${this.item.id}` },
       });
     }
   }
@@ -71,5 +68,4 @@ export class ViewMediaComponent implements OnInit {
     this.isLoading = false;
     this.router.navigate([redirectPath]);
   }
-
 }

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { MediaStatus, MediaType, CreateMediaRequest, Media } from '../../models/media';
+import {
+  MediaStatus,
+  MediaType,
+  CreateMediaRequest,
+  Media,
+} from '../../models/media';
 import { MediaService } from '../../services/media.service';
 
 @Component({
@@ -10,12 +15,11 @@ import { MediaService } from '../../services/media.service';
   styleUrls: ['./upload-media.component.scss'],
 })
 export class UploadMediaComponent implements OnInit {
-
   private readonly listRouteMap: Record<MediaType, string> = {
-    [MediaType.BOOK]:  'books',
+    [MediaType.BOOK]: 'books',
     [MediaType.MOVIE]: 'movies',
-    [MediaType.TV]:    'tv',
-    [MediaType.GAME]:  'games',
+    [MediaType.TV]: 'tv',
+    [MediaType.GAME]: 'games',
   };
 
   mediaType!: MediaType;
@@ -51,28 +55,39 @@ export class UploadMediaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let mediaTypeFromState = this.router.getCurrentNavigation()?.extras.state?.['mediaType'] as MediaType | undefined;
-    let statusFromState = this.router.getCurrentNavigation()?.extras.state?.['status'] as MediaStatus | undefined;
+    let mediaTypeFromState = this.router.getCurrentNavigation()?.extras.state?.[
+      'mediaType'
+    ] as MediaType | undefined;
+    let statusFromState = this.router.getCurrentNavigation()?.extras.state?.[
+      'status'
+    ] as MediaStatus | undefined;
 
     if (!mediaTypeFromState || !statusFromState) {
-      mediaTypeFromState = history.state?.['mediaType'] as MediaType | undefined;
+      mediaTypeFromState = history.state?.['mediaType'] as
+        | MediaType
+        | undefined;
       statusFromState = history.state?.['status'] as MediaStatus | undefined;
     }
 
-    this.mediaType    = mediaTypeFromState ?? MediaType.BOOK;
+    this.mediaType = mediaTypeFromState ?? MediaType.BOOK;
     this.initialStatus = statusFromState ?? MediaStatus.COMPLETED;
 
-    this.item.type   = this.mediaType;
+    this.item.type = this.mediaType;
     this.item.status = this.initialStatus;
   }
 
   get mediaLabel(): string {
     switch (this.mediaType) {
-      case MediaType.BOOK:  return 'Book';
-      case MediaType.MOVIE: return 'Movie';
-      case MediaType.TV:    return 'TV Show';
-      case MediaType.GAME:  return 'Video Game';
-      default:              return 'Media';
+      case MediaType.BOOK:
+        return 'Book';
+      case MediaType.MOVIE:
+        return 'Movie';
+      case MediaType.TV:
+        return 'TV Show';
+      case MediaType.GAME:
+        return 'Video Game';
+      default:
+        return 'Media';
     }
   }
 
@@ -97,9 +112,10 @@ export class UploadMediaComponent implements OnInit {
 
     const payload: CreateMediaRequest = {
       name,
-      imageUrl: this.includeImage && this.item.imageUrl
-        ? this.item.imageUrl.trim()
-        : null,
+      imageUrl:
+        this.includeImage && this.item.imageUrl
+          ? this.item.imageUrl.trim()
+          : null,
       type: this.mediaType,
       status,
       startedAt: null,
@@ -120,7 +136,7 @@ export class UploadMediaComponent implements OnInit {
       error: (err: unknown) => {
         console.error('Error adding item:', err);
         alert('Could not save media item.');
-      }
+      },
     });
   }
 
@@ -133,7 +149,7 @@ export class UploadMediaComponent implements OnInit {
       error: (err: unknown) => {
         console.error('Error creating book details:', err);
         this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
-      }
+      },
     });
   }
 
@@ -146,7 +162,7 @@ export class UploadMediaComponent implements OnInit {
       error: (err: unknown) => {
         console.error('Error creating game details:', err);
         this.navigateAfterCreate(this.item.status ?? MediaStatus.COMPLETED);
-      }
+      },
     });
   }
 

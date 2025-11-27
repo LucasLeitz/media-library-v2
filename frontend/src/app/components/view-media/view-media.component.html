@@ -1,7 +1,7 @@
 <div class="view-media-container" *ngIf="!isLoading && item">
   <!-- Image -->
   <div class="media-image" *ngIf="item.imageUrl">
-    <img [src]="item.imageUrl" [alt]="item.name">
+    <img [src]="item.imageUrl" [alt]="item.name" />
   </div>
 
   <!-- Common Details -->
@@ -18,7 +18,6 @@
       <span class="value">{{ item.status | formatEnum }}</span>
     </div>
 
-
     <div class="detail-row" *ngIf="item.startedAt">
       <span class="label">Started:</span>
       <span class="value">{{ item.startedAt | date }}</span>
@@ -31,12 +30,12 @@
 
     <div class="detail-row" *ngIf="item.createdAt">
       <span class="label">Created:</span>
-      <span class="value">{{ item.createdAt | date:'medium' }}</span>
+      <span class="value">{{ item.createdAt | date: "medium" }}</span>
     </div>
 
     <div class="detail-row" *ngIf="item.updatedAt">
       <span class="label">Updated:</span>
-      <span class="value">{{ item.updatedAt | date:'medium' }}</span>
+      <span class="value">{{ item.updatedAt | date: "medium" }}</span>
     </div>
 
     <!-- Book-specific Details -->
@@ -75,4 +74,3 @@
   <p>{{ errorMessage }}</p>
   <button (click)="goBack()">Go Back</button>
 </div>
-

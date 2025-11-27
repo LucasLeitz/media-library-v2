@@ -2,14 +2,14 @@
 export enum MediaStatus {
   BACKLOG = 'BACKLOG',
   COMPLETED = 'COMPLETED',
-  IN_PROGRESS = 'IN_PROGRESS'
+  IN_PROGRESS = 'IN_PROGRESS',
 }
 
 export enum MediaType {
   BOOK = 'BOOK',
   MOVIE = 'MOVIE',
   TV = 'TV',
-  GAME = 'GAME'
+  GAME = 'GAME',
 }
 
 export enum GamePlatform {
@@ -28,7 +28,7 @@ export enum GamePlatform {
   PLAYSTATION_4 = 'PLAYSTATION_4',
   PLAYSTATION_5 = 'PLAYSTATION_5',
   SNES = 'SNES',
-  OTHER = 'OTHER'
+  OTHER = 'OTHER',
 }
 
 // ---------- Detail types ----------

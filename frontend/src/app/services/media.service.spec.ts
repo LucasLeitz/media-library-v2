@@ -1,8 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import {
+  provideHttpClientTesting,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { MediaService } from './media.service';
-import { CreateMediaRequest, Media, MediaType, MediaStatus } from '../models/media';
+import {
+  CreateMediaRequest,
+  Media,
+  MediaType,
+  MediaStatus,
+} from '../models/media';
 import { environment } from '../../environments/environment';
 
 describe('MediaService', () => {
@@ -16,8 +24,8 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(MediaService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -34,11 +42,25 @@ describe('MediaService', () => {
   describe('GET methods', () => {
     it('should get all media', () => {
       const mockMedia: Media[] = [
-        { id: '1', name: 'Test Movie', type: MediaType.MOVIE, status: MediaStatus.BACKLOG, createdAt: '2024-01-01', updatedAt: '2024-01-01' } as Media,
-        { id: '2', name: 'Test Book', type: MediaType.BOOK, status: MediaStatus.IN_PROGRESS, createdAt: '2024-01-02', updatedAt: '2024-01-02' } as Media
+        {
+          id: '1',
+          name: 'Test Movie',
+          type: MediaType.MOVIE,
+          status: MediaStatus.BACKLOG,
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-01',
+        } as Media,
+        {
+          id: '2',
+          name: 'Test Book',
+          type: MediaType.BOOK,
+          status: MediaStatus.IN_PROGRESS,
+          createdAt: '2024-01-02',
+          updatedAt: '2024-01-02',
+        } as Media,
       ];
 
-      service.getAllMedia().subscribe(media => {
+      service.getAllMedia().subscribe((media) => {
         expect(media).toEqual(mockMedia);
         expect(media.length).toBe(2);
       });
@@ -55,10 +77,10 @@ describe('MediaService', () => {
         type: MediaType.MOVIE,
         status: MediaStatus.COMPLETED,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.getMediaById('123').subscribe(media => {
+      service.getMediaById('123').subscribe((media) => {
         expect(media).toEqual(mockMedia);
         expect(media.id).toBe('123');
       });
@@ -70,10 +92,17 @@ describe('MediaService', () => {
 
     it('should get media by type', () => {
       const mockMedia: Media[] = [
-        { id: '1', name: 'Movie 1', type: MediaType.MOVIE, status: MediaStatus.BACKLOG, createdAt: '2024-01-01', updatedAt: '2024-01-01' } as Media
+        {
+          id: '1',
+          name: 'Movie 1',
+          type: MediaType.MOVIE,
+          status: MediaStatus.BACKLOG,
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
-      service.getMediaByType(MediaType.MOVIE).subscribe(media => {
+      service.getMediaByType(MediaType.MOVIE).subscribe((media) => {
         expect(media).toEqual(mockMedia);
       });
 
@@ -85,10 +114,17 @@ describe('MediaService', () => {
 
     it('should get media by status', () => {
       const mockMedia: Media[] = [
-        { id: '1', name: 'Completed Movie', type: MediaType.MOVIE, status: MediaStatus.COMPLETED, createdAt: '2024-01-01', updatedAt: '2024-01-01' } as Media
+        {
+          id: '1',
+          name: 'Completed Movie',
+          type: MediaType.MOVIE,
+          status: MediaStatus.COMPLETED,
+          createdAt: '2024-01-01',
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
-      service.getMediaByStatus(MediaStatus.COMPLETED).subscribe(media => {
+      service.getMediaByStatus(MediaStatus.COMPLETED).subscribe((media) => {
         expect(media).toEqual(mockMedia);
       });
 
@@ -104,17 +140,17 @@ describe('MediaService', () => {
       const createRequest: CreateMediaRequest = {
         name: 'New Movie',
         type: MediaType.MOVIE,
-        status: MediaStatus.BACKLOG
+        status: MediaStatus.BACKLOG,
       };
 
       const mockResponse: Media = {
         id: 'new-id',
         ...createRequest,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.createMedia(createRequest).subscribe(media => {
+      service.createMedia(createRequest).subscribe((media) => {
         expect(media).toEqual(mockResponse);
         expect(media.id).toBe('new-id');
       });
@@ -131,7 +167,9 @@ describe('MediaService', () => {
 
       service.createBookDetails(mediaId, author).subscribe();
 
-      const req = httpMock.expectOne(`${baseUrl}/bookdetails/${mediaId}?author=J.K.%20Rowling`);
+      const req = httpMock.expectOne(
+        `${baseUrl}/bookdetails/${mediaId}?author=J.K.%20Rowling`,
+      );
       expect(req.request.method).toBe('POST');
       expect(req.request.params.get('author')).toBe(author);
       expect(req.request.body).toBeNull();
@@ -144,7 +182,9 @@ describe('MediaService', () => {
 
       service.createGameDetails(mediaId, platform).subscribe();
 
-      const req = httpMock.expectOne(`${baseUrl}/gamedetails/${mediaId}?platform=PLAYSTATION_5`);
+      const req = httpMock.expectOne(
+        `${baseUrl}/gamedetails/${mediaId}?platform=PLAYSTATION_5`,
+      );
       expect(req.request.method).toBe('POST');
       expect(req.request.params.get('platform')).toBe(platform);
       expect(req.request.body).toBeNull();
@@ -162,10 +202,10 @@ describe('MediaService', () => {
         type: MediaType.MOVIE,
         status: MediaStatus.BACKLOG,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.renameMedia(mediaId, newName).subscribe(media => {
+      service.renameMedia(mediaId, newName).subscribe((media) => {
         expect(media.name).toBe(newName);
       });
 
@@ -185,14 +225,16 @@ describe('MediaService', () => {
         type: MediaType.MOVIE,
         status: status,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.setMediaStatus(mediaId, status, null).subscribe(media => {
+      service.setMediaStatus(mediaId, status, null).subscribe((media) => {
         expect(media.status).toBe(status);
       });
 
-      const req = httpMock.expectOne(`${baseMediaUrl}/${mediaId}/status?status=IN_PROGRESS`);
+      const req = httpMock.expectOne(
+        `${baseMediaUrl}/${mediaId}/status?status=IN_PROGRESS`,
+      );
       expect(req.request.method).toBe('PATCH');
       expect(req.request.params.get('status')).toBe(status);
       expect(req.request.params.has('completedAt')).toBeFalse();
@@ -211,15 +253,19 @@ describe('MediaService', () => {
         status: status,
         completedAt: completedAt,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.setMediaStatus(mediaId, status, completedAt).subscribe(media => {
-        expect(media.status).toBe(status);
-        expect(media.completedAt).toBe(completedAt);
-      });
+      service
+        .setMediaStatus(mediaId, status, completedAt)
+        .subscribe((media) => {
+          expect(media.status).toBe(status);
+          expect(media.completedAt).toBe(completedAt);
+        });
 
-      const req = httpMock.expectOne(`${baseMediaUrl}/${mediaId}/status?status=COMPLETED&completedAt=2024-01-15T10:30:00`);
+      const req = httpMock.expectOne(
+        `${baseMediaUrl}/${mediaId}/status?status=COMPLETED&completedAt=2024-01-15T10:30:00`,
+      );
       expect(req.request.method).toBe('PATCH');
       expect(req.request.params.get('status')).toBe(status);
       expect(req.request.params.get('completedAt')).toBe(completedAt);
@@ -236,10 +282,10 @@ describe('MediaService', () => {
         status: MediaStatus.BACKLOG,
         imageUrl: imageUrl,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.setMediaImageUrl(mediaId, imageUrl).subscribe(media => {
+      service.setMediaImageUrl(mediaId, imageUrl).subscribe((media) => {
         expect(media.imageUrl).toBe(imageUrl);
       });
 
@@ -259,10 +305,10 @@ describe('MediaService', () => {
         status: MediaStatus.BACKLOG,
         imageUrl: null,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-01'
+        updatedAt: '2024-01-01',
       } as Media;
 
-      service.setMediaImageUrl(mediaId, null).subscribe(media => {
+      service.setMediaImageUrl(mediaId, null).subscribe((media) => {
         expect(media.imageUrl).toBeNull();
       });
 
@@ -278,7 +324,9 @@ describe('MediaService', () => {
 
       service.updateBookAuthor(mediaId, author).subscribe();
 
-      const req = httpMock.expectOne(`${baseUrl}/bookdetails/${mediaId}/author`);
+      const req = httpMock.expectOne(
+        `${baseUrl}/bookdetails/${mediaId}/author`,
+      );
       expect(req.request.method).toBe('PATCH');
       expect(req.request.body).toBe(author);
       expect(req.request.headers.get('Content-Type')).toBe('text/plain');
@@ -291,7 +339,9 @@ describe('MediaService', () => {
 
       service.updateGamePlatform(mediaId, platform).subscribe();
 
-      const req = httpMock.expectOne(`${baseUrl}/gamedetails/${mediaId}/platform?platform=NINTENDO_SWITCH`);
+      const req = httpMock.expectOne(
+        `${baseUrl}/gamedetails/${mediaId}/platform?platform=NINTENDO_SWITCH`,
+      );
       expect(req.request.method).toBe('PATCH');
       expect(req.request.params.get('platform')).toBe(platform);
       expect(req.request.body).toBeNull();
@@ -304,7 +354,7 @@ describe('MediaService', () => {
       const mediaId = '123';
       const updateRequest: Partial<CreateMediaRequest> = {
         name: 'Updated Name',
-        status: MediaStatus.COMPLETED
+        status: MediaStatus.COMPLETED,
       };
       const mockResponse: Media = {
         id: mediaId,
@@ -312,10 +362,10 @@ describe('MediaService', () => {
         type: MediaType.MOVIE,
         status: MediaStatus.COMPLETED,
         createdAt: '2024-01-01',
-        updatedAt: '2024-01-15'
+        updatedAt: '2024-01-15',
       } as Media;
 
-      service.updateMedia(mediaId, updateRequest).subscribe(media => {
+      service.updateMedia(mediaId, updateRequest).subscribe((media) => {
         expect(media.name).toBe('Updated Name');
         expect(media.status).toBe(MediaStatus.COMPLETED);
       });

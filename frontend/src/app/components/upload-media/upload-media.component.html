@@ -1,5 +1,5 @@
 <div class="content-container">
-  <h2 class="cool-title">Add {{mediaLabel}}</h2>
+  <h2 class="cool-title">Add {{ mediaLabel }}</h2>
 
   <form (ngSubmit)="onSubmit()" #itemForm="ngForm" class="add-media-form">
     <div class="form-group">
@@ -12,7 +12,10 @@
         required
         class="form-input"
       >
-        <option *ngFor="let option of mediaTypeOptions" [ngValue]="option.value">
+        <option
+          *ngFor="let option of mediaTypeOptions"
+          [ngValue]="option.value"
+        >
           {{ option.label }}
         </option>
       </select>
@@ -54,7 +57,8 @@
         name="author"
         [(ngModel)]="author"
         class="form-input"
-        placeholder="Enter author name (optional)">
+        placeholder="Enter author name (optional)"
+      />
     </div>
 
     <!-- Game-specific fields -->
@@ -65,7 +69,8 @@
         name="platform"
         [(ngModel)]="platform"
         class="form-input"
-        required>
+        required
+      >
         <option value="">Select a platform</option>
         <option value="GAMEBOY_ADVANCE">Game Boy Advance</option>
         <option value="GAMECUBE">GameCube</option>
@@ -86,8 +91,6 @@
       </select>
     </div>
 
-
-
     <div class="form-group" *ngIf="item.status === MediaStatusEnum.COMPLETED">
       <label for="completedAt">Completed Date:</label>
       <input
@@ -102,19 +105,13 @@
 
     <div class="form-group form-checkbox">
       <label>
-        <input
-          type="checkbox"
-          [(ngModel)]="includeImage"
-          name="includeImage"
-        />
+        <input type="checkbox" [(ngModel)]="includeImage" name="includeImage" />
         Include an image?
       </label>
     </div>
 
     <div *ngIf="includeImage" class="form-group">
-      <label for="imageUrl">
-        Image URL:
-      </label>
+      <label for="imageUrl"> Image URL: </label>
       <input
         type="text"
         id="imageUrl"
@@ -127,15 +124,15 @@
 
     <div *ngIf="includeImage && item.imageUrl" class="image-preview">
       <p>Image Preview:</p>
-      <img
-        [src]="item.imageUrl"
-        alt="Preview"
-        class="preview-img"
-      />
+      <img [src]="item.imageUrl" alt="Preview" class="preview-img" />
     </div>
 
     <div class="button-container">
-      <button type="submit" [disabled]="!itemForm.form.valid" class="submit-btn">
+      <button
+        type="submit"
+        [disabled]="!itemForm.form.valid"
+        class="submit-btn"
+      >
         Submit
       </button>
       <button type="button" (click)="onCancel()" class="cancel-btn">

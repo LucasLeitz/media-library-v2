@@ -30,26 +30,35 @@ export class HomeComponent implements OnInit {
   loadTotalCounts(): void {
     this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
       next: (books: Media[]) =>
-        (this.totalBooks = books.filter(b => b.status === MediaStatus.COMPLETED).length),
+        (this.totalBooks = books.filter(
+          (b) => b.status === MediaStatus.COMPLETED,
+        ).length),
       error: (err: unknown) => console.error('Error fetching books:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.MOVIE).subscribe({
       next: (movies: Media[]) =>
-        (this.totalMovies = movies.filter(m => m.status === MediaStatus.COMPLETED).length),
+        (this.totalMovies = movies.filter(
+          (m) => m.status === MediaStatus.COMPLETED,
+        ).length),
       error: (err: unknown) => console.error('Error fetching movies:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.TV).subscribe({
       next: (shows: Media[]) =>
-        (this.totalTvShows = shows.filter(s => s.status === MediaStatus.COMPLETED).length),
+        (this.totalTvShows = shows.filter(
+          (s) => s.status === MediaStatus.COMPLETED,
+        ).length),
       error: (err: unknown) => console.error('Error fetching TV shows:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.GAME).subscribe({
       next: (games: Media[]) =>
-        (this.totalVideoGames = games.filter(g => g.status === MediaStatus.COMPLETED).length),
-      error: (err: unknown) => console.error('Error fetching video games:', err),
+        (this.totalVideoGames = games.filter(
+          (g) => g.status === MediaStatus.COMPLETED,
+        ).length),
+      error: (err: unknown) =>
+        console.error('Error fetching video games:', err),
     });
   }
 
@@ -57,30 +66,34 @@ export class HomeComponent implements OnInit {
     this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
       next: (books: Media[]) =>
         (this.completedBooksCount = this.countCompletedThisYear(books)),
-      error: (err: unknown) => console.error('Error fetching completed books:', err),
+      error: (err: unknown) =>
+        console.error('Error fetching completed books:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.MOVIE).subscribe({
       next: (movies: Media[]) =>
         (this.completedMoviesCount = this.countCompletedThisYear(movies)),
-      error: (err: unknown) => console.error('Error fetching completed movies:', err),
+      error: (err: unknown) =>
+        console.error('Error fetching completed movies:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.TV).subscribe({
       next: (shows: Media[]) =>
         (this.completedTvShowsCount = this.countCompletedThisYear(shows)),
-      error: (err: unknown) => console.error('Error fetching completed TV shows:', err),
+      error: (err: unknown) =>
+        console.error('Error fetching completed TV shows:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.GAME).subscribe({
       next: (games: Media[]) =>
         (this.completedVideoGamesCount = this.countCompletedThisYear(games)),
-      error: (err: unknown) => console.error('Error fetching completed video games:', err),
+      error: (err: unknown) =>
+        console.error('Error fetching completed video games:', err),
     });
   }
 
   private countCompletedThisYear(list: Media[]): number {
-    return list.filter(m => {
+    return list.filter((m) => {
       if (m.status !== MediaStatus.COMPLETED || !m.completedAt) {
         return false;
       }

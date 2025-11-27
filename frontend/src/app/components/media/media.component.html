@@ -2,13 +2,37 @@
   <h2 class="cool-title">{{ pageTitle }}</h2>
 
   <div class="button-container">
-    <button class="add-item-btn" (click)="addItem()">Add {{ mediaLabel }}s</button>
-    <button class="search-item-btn" (click)="toggleSearch()">Search for {{ mediaLabel }}s</button>
-    <button class="sort-items-btn" (click)="toggleSortOptions()">Sort {{ mediaLabel }}s</button>
+    <button class="add-item-btn" (click)="addItem()">
+      Add {{ mediaLabel }}s
+    </button>
+    <button class="search-item-btn" (click)="toggleSearch()">
+      Search for {{ mediaLabel }}s
+    </button>
+    <button class="sort-items-btn" (click)="toggleSortOptions()">
+      Sort {{ mediaLabel }}s
+    </button>
     <button class="filter-items-btn">Filter {{ mediaLabel }}s</button>
-    <button class="backlog-btn" (click)="goToBacklog()" *ngIf="currentStatus !== 'BACKLOG'">View Backlog</button>
-    <button class="inprogress-btn" (click)="goToInProgress()" *ngIf="currentStatus !== 'IN_PROGRESS'">View In-Progress</button>
-    <button class="completed-btn" (click)="goToCompleted()" *ngIf="currentStatus !== 'COMPLETED'">View Completed</button>
+    <button
+      class="backlog-btn"
+      (click)="goToBacklog()"
+      *ngIf="currentStatus !== 'BACKLOG'"
+    >
+      View Backlog
+    </button>
+    <button
+      class="inprogress-btn"
+      (click)="goToInProgress()"
+      *ngIf="currentStatus !== 'IN_PROGRESS'"
+    >
+      View In-Progress
+    </button>
+    <button
+      class="completed-btn"
+      (click)="goToCompleted()"
+      *ngIf="currentStatus !== 'COMPLETED'"
+    >
+      View Completed
+    </button>
   </div>
 
   <!-- Sort Options Dropdown -->
@@ -21,7 +45,9 @@
       class="sort-select"
     >
       <option value="name">Title</option>
-      <option value="completedAt" *ngIf="currentStatus === 'COMPLETED'">Completed Date</option>
+      <option value="completedAt" *ngIf="currentStatus === 'COMPLETED'">
+        Completed Date
+      </option>
     </select>
   </div>
 
@@ -61,9 +87,24 @@
         <!-- Back of the card -->
         <div class="card-back">
           <div class="button-group">
-            <button class="info-btn" (click)="viewItem(i); $event.stopPropagation()">More Info</button>
-            <button class="edit-btn" (click)="editItem(i); $event.stopPropagation()">Edit</button>
-            <button class="delete-btn" (click)="removeItem(i); $event.stopPropagation()">Delete</button>
+            <button
+              class="info-btn"
+              (click)="viewItem(i); $event.stopPropagation()"
+            >
+              More Info
+            </button>
+            <button
+              class="edit-btn"
+              (click)="editItem(i); $event.stopPropagation()"
+            >
+              Edit
+            </button>
+            <button
+              class="delete-btn"
+              (click)="removeItem(i); $event.stopPropagation()"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>

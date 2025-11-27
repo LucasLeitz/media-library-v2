@@ -1,5 +1,4 @@
 services:
-
   frontend:
     build:
       context: ./frontend
@@ -39,7 +38,6 @@ services:
       - "${WEB_PORT:-8081}:80"
     restart: unless-stopped
 
-
   mysql:
     image: mysql:8.4
     container_name: media_mysql
@@ -54,7 +52,11 @@ services:
     volumes:
       - media_mysql_data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent" ]
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10

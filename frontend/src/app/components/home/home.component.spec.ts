@@ -19,7 +19,7 @@ describe('HomeComponent', () => {
       status: MediaStatus.COMPLETED,
       completedAt: `${currentYear}-01-15`,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
+      updatedAt: '2024-01-01',
     } as Media,
     {
       id: '2',
@@ -28,7 +28,7 @@ describe('HomeComponent', () => {
       status: MediaStatus.COMPLETED,
       completedAt: `${currentYear - 1}-06-20`,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
+      updatedAt: '2024-01-01',
     } as Media,
     {
       id: '3',
@@ -36,8 +36,8 @@ describe('HomeComponent', () => {
       type: MediaType.BOOK,
       status: MediaStatus.BACKLOG,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
-    } as Media
+      updatedAt: '2024-01-01',
+    } as Media,
   ];
 
   const mockMovies: Media[] = [
@@ -48,7 +48,7 @@ describe('HomeComponent', () => {
       status: MediaStatus.COMPLETED,
       completedAt: `${currentYear}-03-10`,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
+      updatedAt: '2024-01-01',
     } as Media,
     {
       id: '5',
@@ -57,8 +57,8 @@ describe('HomeComponent', () => {
       status: MediaStatus.COMPLETED,
       completedAt: `${currentYear}-05-22`,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
-    } as Media
+      updatedAt: '2024-01-01',
+    } as Media,
   ];
 
   const mockTvShows: Media[] = [
@@ -69,8 +69,8 @@ describe('HomeComponent', () => {
       status: MediaStatus.COMPLETED,
       completedAt: `${currentYear}-07-30`,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
-    } as Media
+      updatedAt: '2024-01-01',
+    } as Media,
   ];
 
   const mockGames: Media[] = [
@@ -80,18 +80,18 @@ describe('HomeComponent', () => {
       type: MediaType.GAME,
       status: MediaStatus.IN_PROGRESS,
       createdAt: '2024-01-01',
-      updatedAt: '2024-01-01'
-    } as Media
+      updatedAt: '2024-01-01',
+    } as Media,
   ];
 
   beforeEach(async () => {
-    const mediaServiceSpy = jasmine.createSpyObj('MediaService', ['getMediaByType']);
+    const mediaServiceSpy = jasmine.createSpyObj('MediaService', [
+      'getMediaByType',
+    ]);
 
     await TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      providers: [
-        { provide: MediaService, useValue: mediaServiceSpy }
-      ]
+      providers: [{ provide: MediaService, useValue: mediaServiceSpy }],
     }).compileComponents();
 
     mediaService = TestBed.inject(MediaService) as jasmine.SpyObj<MediaService>;
@@ -188,7 +188,10 @@ describe('HomeComponent', () => {
 
       component.loadTotalCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching books:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching books:',
+        error,
+      );
     });
 
     it('should handle errors when fetching movies', () => {
@@ -201,7 +204,10 @@ describe('HomeComponent', () => {
 
       component.loadTotalCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching movies:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching movies:',
+        error,
+      );
     });
 
     it('should handle errors when fetching TV shows', () => {
@@ -214,7 +220,10 @@ describe('HomeComponent', () => {
 
       component.loadTotalCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching TV shows:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching TV shows:',
+        error,
+      );
     });
 
     it('should handle errors when fetching video games', () => {
@@ -227,7 +236,10 @@ describe('HomeComponent', () => {
 
       component.loadTotalCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching video games:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching video games:',
+        error,
+      );
     });
   });
 
@@ -300,7 +312,10 @@ describe('HomeComponent', () => {
 
       component.loadCompletedCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching completed books:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching completed books:',
+        error,
+      );
     });
 
     it('should handle errors when fetching completed movies', () => {
@@ -313,7 +328,10 @@ describe('HomeComponent', () => {
 
       component.loadCompletedCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching completed movies:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching completed movies:',
+        error,
+      );
     });
 
     it('should handle errors when fetching completed TV shows', () => {
@@ -326,7 +344,10 @@ describe('HomeComponent', () => {
 
       component.loadCompletedCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching completed TV shows:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching completed TV shows:',
+        error,
+      );
     });
 
     it('should handle errors when fetching completed video games', () => {
@@ -339,7 +360,10 @@ describe('HomeComponent', () => {
 
       component.loadCompletedCounts();
 
-      expect(console.error).toHaveBeenCalledWith('Error fetching completed video games:', error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching completed video games:',
+        error,
+      );
     });
   });
 
@@ -358,7 +382,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-06-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '2',
@@ -367,7 +391,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-12-31`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '3',
@@ -376,8 +400,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear - 1}-06-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -393,7 +417,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.IN_PROGRESS,
           completedAt: `${currentYear}-06-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '2',
@@ -402,8 +426,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.BACKLOG,
           completedAt: `${currentYear}-06-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -418,8 +442,8 @@ describe('HomeComponent', () => {
           type: MediaType.BOOK,
           status: MediaStatus.COMPLETED,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -435,7 +459,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear - 1}-12-31`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '2',
@@ -444,8 +468,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear - 2}-06-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -461,8 +485,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-01-01`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -478,8 +502,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-12-31`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);
@@ -495,7 +519,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-03-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '2',
@@ -504,7 +528,7 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear - 1}-03-15`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '3',
@@ -512,7 +536,7 @@ describe('HomeComponent', () => {
           type: MediaType.BOOK,
           status: MediaStatus.IN_PROGRESS,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '4',
@@ -520,7 +544,7 @@ describe('HomeComponent', () => {
           type: MediaType.BOOK,
           status: MediaStatus.COMPLETED,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
+          updatedAt: '2024-01-01',
         } as Media,
         {
           id: '5',
@@ -529,8 +553,8 @@ describe('HomeComponent', () => {
           status: MediaStatus.COMPLETED,
           completedAt: `${currentYear}-09-20`,
           createdAt: '2024-01-01',
-          updatedAt: '2024-01-01'
-        } as Media
+          updatedAt: '2024-01-01',
+        } as Media,
       ];
 
       const result = component['countCompletedThisYear'](testMedia);

@@ -10,12 +10,11 @@ import { MediaService } from '../../services/media.service';
   styleUrls: ['./media.component.scss'],
 })
 export class MediaComponent implements OnInit {
-
   private readonly listRouteMap: Record<MediaType, string> = {
-    [MediaType.BOOK]:  'books',
+    [MediaType.BOOK]: 'books',
     [MediaType.MOVIE]: 'movies',
-    [MediaType.TV]:    'tv',
-    [MediaType.GAME]:  'games',
+    [MediaType.TV]: 'tv',
+    [MediaType.GAME]: 'games',
   };
 
   mediaType!: MediaType;
@@ -32,12 +31,16 @@ export class MediaComponent implements OnInit {
   constructor(
     private mediaService: MediaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    const typeFromRoute   = this.route.snapshot.data['mediaType'] as MediaType | undefined;
-    const statusFromRoute = this.route.snapshot.data['status'] as MediaStatus | undefined;
+    const typeFromRoute = this.route.snapshot.data['mediaType'] as
+      | MediaType
+      | undefined;
+    const statusFromRoute = this.route.snapshot.data['status'] as
+      | MediaStatus
+      | undefined;
 
     if (!typeFromRoute || !statusFromRoute) {
       console.error('Missing mediaType or status in route data!');
@@ -49,7 +52,7 @@ export class MediaComponent implements OnInit {
 
     this.mediaService.getMediaByType(this.mediaType).subscribe({
       next: (data: Media[]) => {
-        this.mediaList = data.filter(m => m.status === this.currentStatus);
+        this.mediaList = data.filter((m) => m.status === this.currentStatus);
         this.filteredList = [...this.mediaList];
         this.flippedCards = this.mediaList.map(() => false);
       },
@@ -59,11 +62,16 @@ export class MediaComponent implements OnInit {
 
   get mediaLabel(): string {
     switch (this.mediaType) {
-      case MediaType.BOOK:  return 'Book';
-      case MediaType.MOVIE: return 'Movie';
-      case MediaType.TV:    return 'TV Show';
-      case MediaType.GAME:  return 'Video Game';
-      default:              return 'Media';
+      case MediaType.BOOK:
+        return 'Book';
+      case MediaType.MOVIE:
+        return 'Movie';
+      case MediaType.TV:
+        return 'TV Show';
+      case MediaType.GAME:
+        return 'Video Game';
+      default:
+        return 'Media';
     }
   }
 
@@ -90,7 +98,9 @@ export class MediaComponent implements OnInit {
         sorted.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'completedAt':
-        sorted.sort((a, b) => (a.completedAt || '').localeCompare(b.completedAt || ''));
+        sorted.sort((a, b) =>
+          (a.completedAt || '').localeCompare(b.completedAt || ''),
+        );
         break;
     }
     this.filteredList = sorted;
@@ -108,8 +118,8 @@ export class MediaComponent implements OnInit {
       this.filteredList = [...this.mediaList];
     } else {
       const term = this.searchTerm.toLowerCase();
-      this.filteredList = this.mediaList.filter(item =>
-        item.name.toLowerCase().includes(term)
+      this.filteredList = this.mediaList.filter((item) =>
+        item.name.toLowerCase().includes(term),
       );
     }
   }
@@ -131,13 +141,17 @@ export class MediaComponent implements OnInit {
       this.flipCard(index);
       this.mediaService.deleteMedia(itemToRemove.id).subscribe({
         next: () => {
-          this.mediaList = this.mediaList.filter(item => item.id !== itemToRemove.id);
-          this.filteredList = this.filteredList.filter(item => item.id !== itemToRemove.id);
+          this.mediaList = this.mediaList.filter(
+            (item) => item.id !== itemToRemove.id,
+          );
+          this.filteredList = this.filteredList.filter(
+            (item) => item.id !== itemToRemove.id,
+          );
         },
         error: (err: unknown) => {
           console.error('Delete failed:', err);
           alert('Could not delete the item.');
-        }
+        },
       });
     }
   }

@@ -3,9 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'formatEnum',
 })
-
 export class FormatEnumPipe implements PipeTransform {
-
   transform(value: string | null | undefined): string {
     if (!value) return '';
 
@@ -13,9 +11,7 @@ export class FormatEnumPipe implements PipeTransform {
 
     return formatted
       .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-
   }
-
 }

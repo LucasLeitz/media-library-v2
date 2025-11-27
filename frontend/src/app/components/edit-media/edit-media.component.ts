@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaService } from '../../services/media.service';
-import {Media, MediaType, MediaStatus, GamePlatform} from '../../models/media';
+import {
+  Media,
+  MediaType,
+  MediaStatus,
+  GamePlatform,
+} from '../../models/media';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,7 +16,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./edit-media.component.scss'],
 })
 export class EditMediaComponent implements OnInit {
-
   item: Media | null = null;
   newImageUrl = '';
   isLoading = true;
@@ -22,14 +26,14 @@ export class EditMediaComponent implements OnInit {
   private readonly mediaRouteMap: Record<MediaType, string> = {
     [MediaType.BOOK]: 'books',
     [MediaType.MOVIE]: 'movies',
-    [MediaType.TV]:   'tv',
+    [MediaType.TV]: 'tv',
     [MediaType.GAME]: 'games',
   };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private mediaService: MediaService
+    private mediaService: MediaService,
   ) {}
 
   ngOnInit(): void {
@@ -53,18 +57,23 @@ export class EditMediaComponent implements OnInit {
         this.errorMessage = 'Failed to load media item.';
         console.error('Load error:', err.message);
         this.isLoading = false;
-      }
+      },
     });
   }
 
   get mediaLabel(): string {
     if (!this.item) return 'Media';
     switch (this.item.type) {
-      case MediaType.BOOK:  return 'Book';
-      case MediaType.MOVIE: return 'Movie';
-      case MediaType.TV:    return 'TV Show';
-      case MediaType.GAME:  return 'Video Game';
-      default:              return 'Media';
+      case MediaType.BOOK:
+        return 'Book';
+      case MediaType.MOVIE:
+        return 'Movie';
+      case MediaType.TV:
+        return 'TV Show';
+      case MediaType.GAME:
+        return 'Video Game';
+      default:
+        return 'Media';
     }
   }
 
@@ -101,37 +110,40 @@ export class EditMediaComponent implements OnInit {
 
     this.mediaService.renameMedia(id, trimmedName).subscribe({
       next: () => {
-        this.mediaService.setMediaStatus(id, statusToSend, completedAt).subscribe({
-          next: () => {
-            if (imageChanged) {
-              const imageToSend = trimmedNewImage.length > 0 ? trimmedNewImage : null;
-              this.mediaService.setMediaImageUrl(id, imageToSend).subscribe({
-                next: (updated: Media) => {
-                  this.item = updated;
-                  this.navigateBack();
-                },
-                error: (err: HttpErrorResponse) => {
-                  this.errorMessage = 'Failed to update image URL.';
-                  console.error('Image update error:', err.message);
-                  this.isLoading = false;
-                }
-              });
-            } else {
-              this.navigateBack();
-            }
-          },
-          error: (err: HttpErrorResponse) => {
-            this.errorMessage = 'Failed to update media status.';
-            console.error('Status update error:', err.message);
-            this.isLoading = false;
-          }
-        });
+        this.mediaService
+          .setMediaStatus(id, statusToSend, completedAt)
+          .subscribe({
+            next: () => {
+              if (imageChanged) {
+                const imageToSend =
+                  trimmedNewImage.length > 0 ? trimmedNewImage : null;
+                this.mediaService.setMediaImageUrl(id, imageToSend).subscribe({
+                  next: (updated: Media) => {
+                    this.item = updated;
+                    this.navigateBack();
+                  },
+                  error: (err: HttpErrorResponse) => {
+                    this.errorMessage = 'Failed to update image URL.';
+                    console.error('Image update error:', err.message);
+                    this.isLoading = false;
+                  },
+                });
+              } else {
+                this.navigateBack();
+              }
+            },
+            error: (err: HttpErrorResponse) => {
+              this.errorMessage = 'Failed to update media status.';
+              console.error('Status update error:', err.message);
+              this.isLoading = false;
+            },
+          });
       },
       error: (err: HttpErrorResponse) => {
         this.errorMessage = 'Failed to update media title.';
         console.error('Rename error:', err.message);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -186,7 +198,7 @@ export class EditMediaComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error creating book details', error);
-        }
+        },
       });
     } else {
       this.mediaService.updateBookAuthor(this.item.id, author).subscribe({
@@ -198,11 +210,10 @@ export class EditMediaComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error updating author', error);
-        }
+        },
       });
     }
   }
-
 
   updatePlatform(platform: string) {
     if (!this.item || !platform) return;
@@ -212,28 +223,33 @@ export class EditMediaComponent implements OnInit {
         next: () => {
           console.log('Game details created successfully');
           if (this.item) {
-            this.item.gameDetails = { mediaId: this.item.id, platform: platform as GamePlatform };
+            this.item.gameDetails = {
+              mediaId: this.item.id,
+              platform: platform as GamePlatform,
+            };
             this.selectedPlatform = platform;
           }
         },
         error: (error) => {
           console.error('Error creating game details', error);
-        }
+        },
       });
     } else {
       this.mediaService.updateGamePlatform(this.item.id, platform).subscribe({
         next: () => {
           console.log('Platform updated successfully');
           if (this.item) {
-            this.item.gameDetails = { mediaId: this.item.id, platform: platform as GamePlatform };
+            this.item.gameDetails = {
+              mediaId: this.item.id,
+              platform: platform as GamePlatform,
+            };
             this.selectedPlatform = platform;
           }
         },
         error: (error) => {
           console.error('Error updating platform', error);
-        }
+        },
       });
     }
   }
-
 }
