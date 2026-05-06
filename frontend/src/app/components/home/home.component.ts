@@ -65,41 +65,41 @@ export class HomeComponent implements OnInit {
   loadCompletedCounts(): void {
     this.mediaService.getMediaByType(MediaType.BOOK).subscribe({
       next: (books: Media[]) =>
-        (this.completedBooksCount = this.countCompletedThisYear(books)),
+        (this.completedBooksCount = this.countCompletedByYear(books, this.currentYear)),
       error: (err: unknown) =>
         console.error('Error fetching completed books:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.MOVIE).subscribe({
       next: (movies: Media[]) =>
-        (this.completedMoviesCount = this.countCompletedThisYear(movies)),
+        (this.completedMoviesCount = this.countCompletedByYear(movies, this.currentYear)),
       error: (err: unknown) =>
         console.error('Error fetching completed movies:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.TV).subscribe({
       next: (shows: Media[]) =>
-        (this.completedTvShowsCount = this.countCompletedThisYear(shows)),
+        (this.completedTvShowsCount = this.countCompletedByYear(shows, this.currentYear)),
       error: (err: unknown) =>
         console.error('Error fetching completed TV shows:', err),
     });
 
     this.mediaService.getMediaByType(MediaType.GAME).subscribe({
       next: (games: Media[]) =>
-        (this.completedVideoGamesCount = this.countCompletedThisYear(games)),
+        (this.completedVideoGamesCount = this.countCompletedByYear(games, this.currentYear)),
       error: (err: unknown) =>
         console.error('Error fetching completed video games:', err),
     });
   }
 
-  private countCompletedThisYear(list: Media[]): number {
+  private countCompletedByYear(list: Media[], year: number): number {
     return list.filter((m) => {
       if (m.status !== MediaStatus.COMPLETED || !m.completedAt) {
         return false;
       }
 
-      const year = Number(String(m.completedAt).substring(0, 4));
-      return year === this.currentYear;
+      const completedYear = Number(String(m.completedAt).substring(0, 4));
+      return completedYear === year;
     }).length;
   }
 }
