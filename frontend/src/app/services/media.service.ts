@@ -43,6 +43,12 @@ export class MediaService {
     });
   }
 
+  getMediaByTypeAndYear(type: MediaType, year: number): Observable<Media[]> {
+    return this.http.get<Media[]>(this.baseMediaUrl, {
+      params: {type, year},
+    })
+  }
+
   renameMedia(id: string, newName: string): Observable<Media> {
     return this.http.patch<Media>(`${this.baseMediaUrl}/${id}/name`, newName, {
       headers: { 'Content-Type': 'text/plain' },

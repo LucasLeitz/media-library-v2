@@ -1,13 +1,12 @@
 <div class="content-container">
   <h1 class="cool-title">Welcome to Your Media Library</h1>
 
-  <!-- Total Counts Section -->
   <div class="item-grid">
     <div class="item-card">
       <div class="card-front">
         <div class="item-info">
           <p class="item-title">Total Video Games</p>
-          <p class="item-platform">{{ totalVideoGames }}</p>
+          <p class="item-platform">{{ totalCounts[MediaType.GAME] }}</p>
         </div>
       </div>
     </div>
@@ -16,7 +15,7 @@
       <div class="card-front">
         <div class="item-info">
           <p class="item-title">Total Books</p>
-          <p class="item-platform">{{ totalBooks }}</p>
+          <p class="item-platform">{{ totalCounts[MediaType.BOOK] }}</p>
         </div>
       </div>
     </div>
@@ -25,7 +24,7 @@
       <div class="card-front">
         <div class="item-info">
           <p class="item-title">Total Movies</p>
-          <p class="item-platform">{{ totalMovies }}</p>
+          <p class="item-platform">{{ totalCounts[MediaType.MOVIE] }}</p>
         </div>
       </div>
     </div>
@@ -34,34 +33,32 @@
       <div class="card-front">
         <div class="item-info">
           <p class="item-title">Total TV Shows</p>
-          <p class="item-platform">{{ totalTvShows }}</p>
+          <p class="item-platform">{{ totalCounts[MediaType.TV] }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Completed Counts -->
   <div class="stats-section">
-    <h2>Statistics for {{ currentYear }}</h2>
+    <h2>Statistics for {{ requestedYear }}</h2>
 
-    <p *ngIf="completedVideoGamesCount !== null">
-      Completed Video Games: {{ completedVideoGamesCount }}
-    </p>
-    <p *ngIf="completedVideoGamesCount === null">Loading Video Games...</p>
+    <div class="year-selector">
+      <label for="yearSelect">Select Year:</label>
 
-    <p *ngIf="completedBooksCount !== null">
-      Completed Books: {{ completedBooksCount }}
-    </p>
-    <p *ngIf="completedBooksCount === null">Loading Books...</p>
+      <select
+        id="yearSelect"
+        [(ngModel)]="requestedYear"
+        (change)="onRequestedYearChange()"
+      >
+        <option *ngFor="let year of availableYears" [ngValue]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
 
-    <p *ngIf="completedMoviesCount !== null">
-      Completed Movies: {{ completedMoviesCount }}
-    </p>
-    <p *ngIf="completedMoviesCount === null">Loading Movies...</p>
-
-    <p *ngIf="completedTvShowsCount !== null">
-      Completed TV Shows: {{ completedTvShowsCount }}
-    </p>
-    <p *ngIf="completedTvShowsCount === null">Loading TV Shows...</p>
+    <p>Completed Video Games: {{ requestedYearCounts[MediaType.GAME] ?? 'Loading...' }}</p>
+    <p>Completed Books: {{ requestedYearCounts[MediaType.BOOK] ?? 'Loading...' }}</p>
+    <p>Completed Movies: {{ requestedYearCounts[MediaType.MOVIE] ?? 'Loading...' }}</p>
+    <p>Completed TV Shows: {{ requestedYearCounts[MediaType.TV] ?? 'Loading...' }}</p>
   </div>
 </div>

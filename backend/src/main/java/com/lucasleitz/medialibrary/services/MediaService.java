@@ -22,6 +22,8 @@ public interface MediaService {
 
     List<Media> listByStatus(MediaStatus status);
 
+    List<Media> listCompletedByTypeAndYear(MediaType type, Integer year);
+
     Media rename(UUID id, String newName);
 
     Media setStatus(UUID id, MediaStatus status, LocalDate completedAt);

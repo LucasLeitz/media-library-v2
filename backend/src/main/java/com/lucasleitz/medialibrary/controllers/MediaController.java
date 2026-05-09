@@ -51,11 +51,14 @@ public class MediaController {
     public List<MediaDto> list(
             @RequestParam(required = false, name = "q") String namePart,
             @RequestParam(required = false) MediaType type,
-            @RequestParam(required = false) MediaStatus status
+            @RequestParam(required = false) MediaStatus status,
+            @RequestParam(required = false) Integer year
     ) {
         List<Media> results;
 
-        if (namePart != null && !namePart.isBlank()) {
+        if (year != null && type != null) {
+            results = mediaService.listCompletedByTypeAndYear(type, year);
+        } else if (namePart != null && !namePart.isBlank()) {
             results = mediaService.searchByName(namePart);
         } else if (type != null) {
             results = mediaService.listByType(type);

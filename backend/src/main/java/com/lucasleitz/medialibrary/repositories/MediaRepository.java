@@ -15,4 +15,10 @@ public interface MediaRepository extends JpaRepository<Media, UUID> {
     List<Media> findByTypeAndStatus(MediaType type, MediaStatus status);
     List<Media> findByNameContainingIgnoreCase(String name);
     List<Media> findByStartedAtBetween(LocalDate start, LocalDate end);
+    List<Media> findByTypeAndStatusAndCompletedAtBetween(
+            MediaType type,
+            MediaStatus status,
+            LocalDate start,
+            LocalDate end
+    );
 }

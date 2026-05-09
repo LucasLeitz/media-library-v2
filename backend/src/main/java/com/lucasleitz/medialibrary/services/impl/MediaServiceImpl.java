@@ -81,6 +81,20 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Media> listCompletedByTypeAndYear(MediaType type, Integer year) {
+        LocalDate start = LocalDate.of(year, 1, 1);
+        LocalDate end = LocalDate.of(year, 12, 31);
+
+        return mediaRepository.findByTypeAndStatusAndCompletedAtBetween(
+                type,
+                MediaStatus.COMPLETED,
+                start,
+                end
+        );
+    }
+
+    @Override
     public Media rename(UUID id, String newName) {
         Media m = mediaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Media not found: " + id));
